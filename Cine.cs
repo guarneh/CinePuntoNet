@@ -226,37 +226,38 @@ namespace Cinemania
 
         public bool iniciarSesion(string usuario, string pass)
         {
-            bool encontre = false;
+            
 
             foreach (Usuario user in usuarios)
             {
-                if (user.Bloqueado == true)
+                if (user.Mail.Equals(usuario))
                 {
-                    MessageBox.Show("usuario bloqueado");
-                    break;
-                }
-                if (user.Mail.Equals(usuario) && user.Password.Equals(pass) && user.Bloqueado == false)
-                {
-                    encontre = true;
-                    usuarioActual = user;
+                    if (user.Password.Equals(pass))
+                    {
+                        if (user.Bloqueado == false)
+                        {
+                            usuarioActual = user;
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        user.IntentosFallidos++;
+                        MessageBox.Show("Contraseña Incorrecta");
+                        if (user.IntentosFallidos == 3)
+                        {
+                            user.Bloqueado = true;
+                            MessageBox.Show("Usuario Bloqueado");
+                            return false;
+                        }
+                        return false;
+                    }
 
                 }
-                else
-                {
-                    user.IntentosFallidos++;
-                    MessageBox.Show("Error, usuario o contraseña incorrectos");
-
-                }
-                if (user.IntentosFallidos == 3)
-                {
-                    user.Bloqueado = true;
-                    MessageBox.Show("usuario bloqueado");
-                }
-
-
+              
             }
 
-            return encontre;
+            return false;
         }
 
         public void cerrarSesion()
@@ -265,10 +266,10 @@ namespace Cinemania
         }
 
 
-        public string usuarioLogueado()
+        public Usuario usuarioLogueado()
         {
 
-            return usuarioActual.Nombre;
+            return usuarioActual;
 
         }
 

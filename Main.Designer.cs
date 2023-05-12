@@ -41,7 +41,6 @@
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
             tabPage2 = new TabPage();
-            dateTimePicker1 = new DateTimePicker();
             label8 = new Label();
             textBox5 = new TextBox();
             button6 = new Button();
@@ -52,27 +51,24 @@
             textBox2 = new TextBox();
             button5 = new Button();
             dataGridView2 = new DataGridView();
-            tabPage3 = new TabPage();
-            dataGridView3 = new DataGridView();
-            button3 = new Button();
-            label3 = new Label();
-            label4 = new Label();
-            btnMainToUsuario = new Button();
-            button4 = new Button();
-            textBox1 = new TextBox();
             Column6 = new DataGridViewTextBoxColumn();
             Column7 = new DataGridViewTextBoxColumn();
             Column8 = new DataGridViewTextBoxColumn();
             Column9 = new DataGridViewTextBoxColumn();
             Column10 = new DataGridViewTextBoxColumn();
             Column11 = new DataGridViewTextBoxColumn();
+            button3 = new Button();
+            label3 = new Label();
+            label4 = new Label();
+            btnMainToUsuario = new Button();
+            button4 = new Button();
+            textBox1 = new TextBox();
+            label9 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
-            tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -109,7 +105,7 @@
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column3, Column1, Column2, Column4, Column5 });
             dataGridView1.Location = new Point(6, 46);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(443, 249);
+            dataGridView1.Size = new Size(762, 249);
             dataGridView1.TabIndex = 3;
             // 
             // Column3
@@ -162,7 +158,6 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
-            tabControl1.Controls.Add(tabPage3);
             tabControl1.Location = new Point(10, 109);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -183,7 +178,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(dateTimePicker1);
+            tabPage2.Controls.Add(label9);
             tabPage2.Controls.Add(label8);
             tabPage2.Controls.Add(textBox5);
             tabPage2.Controls.Add(button6);
@@ -202,17 +197,10 @@
             tabPage2.Text = "Funciones";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(562, 102);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(108, 23);
-            dateTimePicker1.TabIndex = 13;
-            // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(444, 143);
+            label8.Location = new Point(540, 163);
             label8.Name = "label8";
             label8.Size = new Size(103, 15);
             label8.TabIndex = 12;
@@ -220,14 +208,14 @@
             // 
             // textBox5
             // 
-            textBox5.Location = new Point(562, 140);
+            textBox5.Location = new Point(658, 160);
             textBox5.Name = "textBox5";
             textBox5.Size = new Size(100, 23);
             textBox5.TabIndex = 11;
             // 
             // button6
             // 
-            button6.Location = new Point(574, 180);
+            button6.Location = new Point(670, 200);
             button6.Name = "button6";
             button6.Size = new Size(75, 23);
             button6.TabIndex = 10;
@@ -238,7 +226,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(444, 102);
+            label7.Location = new Point(540, 122);
             label7.Name = "label7";
             label7.Size = new Size(38, 15);
             label7.TabIndex = 9;
@@ -247,7 +235,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(444, 57);
+            label6.Location = new Point(540, 77);
             label6.Name = "label6";
             label6.Size = new Size(48, 15);
             label6.TabIndex = 8;
@@ -256,7 +244,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(444, 18);
+            label5.Location = new Point(540, 38);
             label5.Name = "label5";
             label5.Size = new Size(28, 15);
             label5.TabIndex = 7;
@@ -264,21 +252,23 @@
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(562, 57);
+            textBox3.Location = new Point(658, 77);
             textBox3.Name = "textBox3";
+            textBox3.ReadOnly = true;
             textBox3.Size = new Size(100, 23);
             textBox3.TabIndex = 3;
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(562, 15);
+            textBox2.Location = new Point(658, 35);
             textBox2.Name = "textBox2";
+            textBox2.ReadOnly = true;
             textBox2.Size = new Size(100, 23);
             textBox2.TabIndex = 2;
             // 
             // button5
             // 
-            button5.Location = new Point(5, 27);
+            button5.Location = new Point(5, 6);
             button5.Name = "button5";
             button5.Size = new Size(75, 23);
             button5.TabIndex = 1;
@@ -290,31 +280,49 @@
             // 
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column6, Column7, Column8, Column9, Column10, Column11 });
-            dataGridView2.Location = new Point(3, 56);
+            dataGridView2.Location = new Point(3, 35);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowTemplate.Height = 25;
-            dataGridView2.Size = new Size(405, 217);
+            dataGridView2.Size = new Size(528, 260);
             dataGridView2.TabIndex = 0;
             dataGridView2.CellDoubleClick += dataGridView2_CellDoubleClick;
             // 
-            // tabPage3
+            // Column6
             // 
-            tabPage3.Controls.Add(dataGridView3);
-            tabPage3.Location = new Point(4, 24);
-            tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(774, 301);
-            tabPage3.TabIndex = 2;
-            tabPage3.Text = "Salas";
-            tabPage3.UseVisualStyleBackColor = true;
+            Column6.HeaderText = "ID";
+            Column6.Name = "Column6";
+            Column6.ReadOnly = true;
+            Column6.Visible = false;
             // 
-            // dataGridView3
+            // Column7
             // 
-            dataGridView3.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView3.Location = new Point(7, 3);
-            dataGridView3.Name = "dataGridView3";
-            dataGridView3.RowTemplate.Height = 25;
-            dataGridView3.Size = new Size(711, 217);
-            dataGridView3.TabIndex = 0;
+            Column7.HeaderText = "Sala";
+            Column7.Name = "Column7";
+            Column7.ReadOnly = true;
+            // 
+            // Column8
+            // 
+            Column8.HeaderText = "Pelicula";
+            Column8.Name = "Column8";
+            Column8.ReadOnly = true;
+            // 
+            // Column9
+            // 
+            Column9.HeaderText = "Fecha";
+            Column9.Name = "Column9";
+            Column9.ReadOnly = true;
+            // 
+            // Column10
+            // 
+            Column10.HeaderText = "Cantidad Clientes";
+            Column10.Name = "Column10";
+            Column10.ReadOnly = true;
+            // 
+            // Column11
+            // 
+            Column11.HeaderText = "Costo";
+            Column11.Name = "Column11";
+            Column11.ReadOnly = true;
             // 
             // button3
             // 
@@ -371,42 +379,14 @@
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 11;
             // 
-            // Column6
+            // label9
             // 
-            Column6.HeaderText = "ID";
-            Column6.Name = "Column6";
-            Column6.ReadOnly = true;
-            Column6.Visible = false;
-            // 
-            // Column7
-            // 
-            Column7.HeaderText = "Sala";
-            Column7.Name = "Column7";
-            Column7.ReadOnly = true;
-            // 
-            // Column8
-            // 
-            Column8.HeaderText = "Pelicula";
-            Column8.Name = "Column8";
-            Column8.ReadOnly = true;
-            // 
-            // Column9
-            // 
-            Column9.HeaderText = "Fecha";
-            Column9.Name = "Column9";
-            Column9.ReadOnly = true;
-            // 
-            // Column10
-            // 
-            Column10.HeaderText = "Cantidad Clientes";
-            Column10.Name = "Column10";
-            Column10.ReadOnly = true;
-            // 
-            // Column11
-            // 
-            Column11.HeaderText = "Costo";
-            Column11.Name = "Column11";
-            Column11.ReadOnly = true;
+            label9.AutoSize = true;
+            label9.Location = new Point(658, 122);
+            label9.Name = "label9";
+            label9.Size = new Size(27, 15);
+            label9.TabIndex = 13;
+            label9.Text = "----";
             // 
             // Main
             // 
@@ -435,8 +415,6 @@
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
-            tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -452,8 +430,6 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private DataGridView dataGridView2;
-        private TabPage tabPage3;
-        private DataGridView dataGridView3;
         private Button button3;
         private DataGridViewTextBoxColumn Column3;
         private DataGridViewTextBoxColumn Column1;
@@ -474,12 +450,12 @@
         private Label label5;
         private TextBox textBox3;
         private TextBox textBox2;
-        private DateTimePicker dateTimePicker1;
         private DataGridViewTextBoxColumn Column6;
         private DataGridViewTextBoxColumn Column7;
         private DataGridViewTextBoxColumn Column8;
         private DataGridViewTextBoxColumn Column9;
         private DataGridViewTextBoxColumn Column10;
         private DataGridViewTextBoxColumn Column11;
+        private Label label9;
     }
 }

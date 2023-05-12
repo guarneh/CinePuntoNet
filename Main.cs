@@ -29,7 +29,7 @@ namespace Cinemania
         {
             InitializeComponent();
             cinema = cine;
-            label2.Text = cine.usuarioLogueado();
+            label2.Text = cine.usuarioLogueado().Nombre;
             label4.Text = cine.usuarioCredito().ToString();
             selectedUser = -1;
             if (cine.esAdmin())
@@ -126,23 +126,12 @@ namespace Cinemania
             string pelicula = dataGridView2[2, e.RowIndex].Value.ToString();
             string fechaString = dataGridView2[3, e.RowIndex].Value.ToString();
 
-            DateTime fecha;
-
-            if (DateTime.TryParse(fechaString, out fecha)) // Convertir string en datetime
-            {
-
-                dateTimePicker1.Value = fecha;
-            }
-            else
-            {
-
-                Console.WriteLine("La cadena no se pudo convertir en un objeto DateTime válido.");
-            }
+            
 
 
 
 
-            textBox1.Text = ID;
+            
             textBox2.Text = sala;
             textBox3.Text = pelicula;
             selectedFuncion = int.Parse(ID);
@@ -189,7 +178,7 @@ namespace Cinemania
             textBox2.Clear();
             textBox3.Clear();
             textBox5.Clear();
-            dateTimePicker1.ResetText();
+            label9.ResetText();
 
         }
     }

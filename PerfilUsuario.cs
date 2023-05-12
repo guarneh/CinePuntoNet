@@ -22,6 +22,9 @@ namespace Cinemania
             InitializeComponent();
             cinema = cine;
             label2.Text = cine.usuarioCredito().ToString();
+            label5.Text = cine.usuarioLogueado().DNI.ToString();
+            label7.Text = cine.usuarioLogueado().Mail;
+            label8.Text = cine.usuarioLogueado().Nombre + " " + cine.usuarioLogueado().Apellido;
         }
 
 
@@ -32,97 +35,10 @@ namespace Cinemania
             this.transfMain();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            textBox4.Clear();
-            textBox5.Clear();
-            dateTimePicker1.ResetText();
 
 
-            actualizarMisDatos();
-            selectedUser = -1;
-        }
-
-        private void actualizarMisDatos()
-        {
-            dataGridView1.Rows.Clear();
 
 
-            foreach (Usuario user in cinema.obtenerUsuarios())
-            {
-                dataGridView1.Rows.Add(user.ToString());
-
-            }
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string textoTextBox1 = textBox1.Text;
-            int dni;
-            bool success = int.TryParse(textoTextBox1, out dni);
-            if (success)
-            {
-                Console.WriteLine("La conversión fue exitosa: " + textoTextBox1);
-            }
-            else
-            {
-                Console.WriteLine("La conversión falló.");
-            }
-
-
-            string nombre = textBox2.Text;
-            string apellido = textBox3.Text;
-            string mail = textBox4.Text;
-            string pass = textBox5.Text;
-            DateTime fechaNacimiento = dateTimePicker1.Value;
-
-            if (selectedUser != 0)
-            {
-                if (cinema.modificarMisDatos(selectedUser, dni, nombre, apellido, mail, pass, fechaNacimiento))
-                    MessageBox.Show("Modificado con éxito");
-                else
-                    MessageBox.Show("Problemas al modificar");
-            }
-            else
-                MessageBox.Show("Debe seleccionar un usuario");
-        }
-
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            string ID = dataGridView1[0, e.RowIndex].Value.ToString();
-            string dni = dataGridView1[1, e.RowIndex].Value.ToString();
-            string nombre = dataGridView1[2, e.RowIndex].Value.ToString();
-            string apellido = dataGridView1[3, e.RowIndex].Value.ToString();
-            string mail = dataGridView1[4, e.RowIndex].Value.ToString();
-            string password = dataGridView1[5, e.RowIndex].Value.ToString();
-            string fechaString = dataGridView1[6, e.RowIndex].Value.ToString();
-
-
-            textBox1.Text = dni;
-            textBox2.Text = nombre;
-            textBox5.Text = apellido;
-            textBox3.Text = mail;
-            textBox4.Text = password;
-            selectedUser = int.Parse(ID);
-
-
-            DateTime fecha;
-
-            if (DateTime.TryParse(fechaString, out fecha)) // Convertir string en datetime
-            {
-
-                dateTimePicker1.Value = fecha;
-            }
-            else
-            {
-
-                Console.WriteLine("La cadena no se pudo convertir en un objeto DateTime válido.");
-            }
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -134,11 +50,32 @@ namespace Cinemania
         {
             dataGridView3.Rows.Clear();
 
-            foreach (Funcion f in cinema.obtenerFunciones())
+            foreach (Funcion f in cinema.usuarioLogueado().MisFunciones)
             {
+                //if (f.fecha.Date <= DateTime.Now)
+                //{
                 dataGridView3.Rows.Add(f.ToString());
+                    
+               // }
 
             }
+        }
+
+        private void dataGridView3_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string idFuncion = dataGridView3[0, e.RowIndex].Value.ToString();
+            string sala = dataGridView3[1, e.RowIndex].Value.ToString();
+            string pelicula = dataGridView3[2, e.RowIndex].Value.ToString();
+            string fechaString = dataGridView3[3, e.RowIndex].Value.ToString();
+            string cantClientesString = dataGridView3[4, e.RowIndex].Value.ToString();
+            string costoString = dataGridView3[5, e.RowIndex].Value.ToString();
+
+            label12.Text = pelicula;
+            label13.Text = sala;
+            label14.Text = fechaString;
+
+            selectedFuncion = int.Parse(idFuncion);
+
         }
     }
 }
