@@ -15,6 +15,7 @@ namespace Cinemania
     {
         public Cine cinema;
         public usuarioToMain transfMain;
+        public usuarioToCambiarPassword transfCambiarPassword;
         private int selectedUser;
         private int selectedFuncion;
         public PerfilUsuario(Cine cine)
@@ -30,6 +31,7 @@ namespace Cinemania
 
 
         public delegate void usuarioToMain();
+        public delegate void usuarioToCambiarPassword();
         private void btnToMain_Click(object sender, EventArgs e)
         {
             this.transfMain();
@@ -55,8 +57,8 @@ namespace Cinemania
                 //if (f.fecha.Date <= DateTime.Now)
                 //{
                 dataGridView3.Rows.Add(f.ToString());
-                    
-               // }
+
+                // }
 
             }
         }
@@ -76,6 +78,11 @@ namespace Cinemania
 
             selectedFuncion = int.Parse(idFuncion);
 
+        }
+
+        private void btnCambiarPassword_Click(object sender, EventArgs e)
+        {
+            this.transfCambiarPassword();
         }
     }
 }

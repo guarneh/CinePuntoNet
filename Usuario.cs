@@ -22,7 +22,7 @@ namespace Cinemania
         public DateTime FechaNacimiento { get; set; }
         public bool EsAdmin { get; set; }
 
-        public Usuario(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, List<Funcion> misFunciones,bool esAdmin, int intentos,bool bloqueo,double credit)
+        public Usuario(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento,bool esAdmin, int intentos,bool bloqueo,double credit)
         {
             this.id = id;
             DNI = dni;

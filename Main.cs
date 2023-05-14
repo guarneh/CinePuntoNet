@@ -45,6 +45,11 @@ namespace Cinemania
                 btnMainToUsuario.Visible = true;
             }
 
+            foreach (Pelicula p in cinema.obtenerPeliculas())
+            {
+                comboBox1.Items.Add(p.nombre);
+            }
+
         }
 
         public delegate void mainToLogin();
@@ -58,22 +63,7 @@ namespace Cinemania
             this.TransfLogin();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            actualizarDatosFilms();
-            selectedUser = -1;
-        }
 
-        private void actualizarDatosFilms()
-        {
-            dataGridView1.Rows.Clear();
-
-            foreach (Pelicula film in cinema.obtenerPeliculas())
-            {
-                dataGridView1.Rows.Add(film.ToString());
-
-            }
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -126,12 +116,12 @@ namespace Cinemania
             string pelicula = dataGridView2[2, e.RowIndex].Value.ToString();
             string fechaString = dataGridView2[3, e.RowIndex].Value.ToString();
 
-            
 
 
 
 
-            
+
+
             textBox2.Text = sala;
             textBox3.Text = pelicula;
             selectedFuncion = int.Parse(ID);
@@ -180,6 +170,18 @@ namespace Cinemania
             textBox5.Clear();
             label9.ResetText();
 
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dataGridView2.Rows.Clear();
+            foreach (Funcion f in cinema.obtenerFunciones())
+            {
+                if (f.miPelicula.nombre.Equals(comboBox1.Text))
+                {
+                    dataGridView2.Rows.Add(f.ToString());
+                }
+            }
         }
     }
 }

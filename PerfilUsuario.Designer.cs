@@ -38,6 +38,9 @@
             Column9 = new DataGridViewTextBoxColumn();
             Costo = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
+            label14 = new Label();
+            label13 = new Label();
+            label12 = new Label();
             button1 = new Button();
             label11 = new Label();
             label10 = new Label();
@@ -59,9 +62,6 @@
             label7 = new Label();
             label8 = new Label();
             btnCambiarPassword = new Button();
-            label12 = new Label();
-            label13 = new Label();
-            label14 = new Label();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -158,6 +158,33 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Proximas Funciones";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new Point(384, 10);
+            label14.Name = "label14";
+            label14.Size = new Size(27, 15);
+            label14.TabIndex = 8;
+            label14.Text = "----";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(275, 10);
+            label13.Name = "label13";
+            label13.Size = new Size(27, 15);
+            label13.TabIndex = 7;
+            label13.Text = "----";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(164, 10);
+            label12.Name = "label12";
+            label12.Size = new Size(27, 15);
+            label12.TabIndex = 6;
+            label12.Text = "----";
             // 
             // button1
             // 
@@ -333,33 +360,7 @@
             btnCambiarPassword.TabIndex = 12;
             btnCambiarPassword.Text = "Cambiar Contraseña";
             btnCambiarPassword.UseVisualStyleBackColor = true;
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(164, 10);
-            label12.Name = "label12";
-            label12.Size = new Size(27, 15);
-            label12.TabIndex = 6;
-            label12.Text = "----";
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new Point(275, 10);
-            label13.Name = "label13";
-            label13.Size = new Size(27, 15);
-            label13.TabIndex = 7;
-            label13.Text = "----";
-            // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new Point(384, 10);
-            label14.Name = "label14";
-            label14.Size = new Size(27, 15);
-            label14.TabIndex = 8;
-            label14.Text = "----";
+            btnCambiarPassword.Click += btnCambiarPassword_Click;
             // 
             // PerfilUsuario
             // 

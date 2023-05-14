@@ -30,17 +30,12 @@
         {
             label1 = new Label();
             label2 = new Label();
-            button1 = new Button();
-            dataGridView1 = new DataGridView();
-            Column3 = new DataGridViewTextBoxColumn();
-            Column1 = new DataGridViewTextBoxColumn();
-            Column2 = new DataGridViewTextBoxColumn();
-            Column4 = new DataGridViewTextBoxColumn();
-            Column5 = new DataGridViewTextBoxColumn();
             button2 = new Button();
             tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
             tabPage2 = new TabPage();
+            label10 = new Label();
+            comboBox1 = new ComboBox();
+            label9 = new Label();
             label8 = new Label();
             textBox5 = new TextBox();
             button6 = new Button();
@@ -63,10 +58,7 @@
             btnMainToUsuario = new Button();
             button4 = new Button();
             textBox1 = new TextBox();
-            label9 = new Label();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             tabControl1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
@@ -89,61 +81,6 @@
             label2.TabIndex = 1;
             label2.Text = "-----";
             // 
-            // button1
-            // 
-            button1.Location = new Point(6, 6);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 2;
-            button1.Text = "Refrescar";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column3, Column1, Column2, Column4, Column5 });
-            dataGridView1.Location = new Point(6, 46);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(762, 249);
-            dataGridView1.TabIndex = 3;
-            // 
-            // Column3
-            // 
-            Column3.Frozen = true;
-            Column3.HeaderText = "ID";
-            Column3.Name = "Column3";
-            Column3.ReadOnly = true;
-            Column3.Visible = false;
-            // 
-            // Column1
-            // 
-            Column1.Frozen = true;
-            Column1.HeaderText = "Nombre";
-            Column1.Name = "Column1";
-            Column1.ReadOnly = true;
-            // 
-            // Column2
-            // 
-            Column2.Frozen = true;
-            Column2.HeaderText = "Sinopsis";
-            Column2.Name = "Column2";
-            Column2.ReadOnly = true;
-            // 
-            // Column4
-            // 
-            Column4.Frozen = true;
-            Column4.HeaderText = "Poster";
-            Column4.Name = "Column4";
-            Column4.ReadOnly = true;
-            // 
-            // Column5
-            // 
-            Column5.Frozen = true;
-            Column5.HeaderText = "Duracion";
-            Column5.Name = "Column5";
-            Column5.ReadOnly = true;
-            // 
             // button2
             // 
             button2.Location = new Point(704, 64);
@@ -156,7 +93,6 @@
             // 
             // tabControl1
             // 
-            tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Location = new Point(10, 109);
             tabControl1.Name = "tabControl1";
@@ -164,20 +100,10 @@
             tabControl1.Size = new Size(782, 329);
             tabControl1.TabIndex = 5;
             // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(dataGridView1);
-            tabPage1.Controls.Add(button1);
-            tabPage1.Location = new Point(4, 24);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(774, 301);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "Peliculas";
-            tabPage1.UseVisualStyleBackColor = true;
-            // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label10);
+            tabPage2.Controls.Add(comboBox1);
             tabPage2.Controls.Add(label9);
             tabPage2.Controls.Add(label8);
             tabPage2.Controls.Add(textBox5);
@@ -196,6 +122,33 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Funciones";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(154, 10);
+            label10.Name = "label10";
+            label10.Size = new Size(48, 15);
+            label10.TabIndex = 15;
+            label10.Text = "Pelicula";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(204, 6);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(121, 23);
+            comboBox1.TabIndex = 14;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(658, 122);
+            label9.Name = "label9";
+            label9.Size = new Size(27, 15);
+            label9.TabIndex = 13;
+            label9.Text = "----";
             // 
             // label8
             // 
@@ -379,15 +332,6 @@
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 11;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(658, 122);
-            label9.Name = "label9";
-            label9.Size = new Size(27, 15);
-            label9.TabIndex = 13;
-            label9.Text = "----";
-            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -409,9 +353,7 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "Form3";
             WindowState = FormWindowState.Maximized;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             tabControl1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
@@ -423,19 +365,11 @@
 
         private Label label1;
         private Label label2;
-        private Button button1;
-        private DataGridView dataGridView1;
         private Button button2;
         private TabControl tabControl1;
-        private TabPage tabPage1;
         private TabPage tabPage2;
         private DataGridView dataGridView2;
         private Button button3;
-        private DataGridViewTextBoxColumn Column3;
-        private DataGridViewTextBoxColumn Column1;
-        private DataGridViewTextBoxColumn Column2;
-        private DataGridViewTextBoxColumn Column4;
-        private DataGridViewTextBoxColumn Column5;
         private Label label3;
         private Label label4;
         private Button btnMainToUsuario;
@@ -457,5 +391,7 @@
         private DataGridViewTextBoxColumn Column10;
         private DataGridViewTextBoxColumn Column11;
         private Label label9;
+        private Label label10;
+        private ComboBox comboBox1;
     }
 }
