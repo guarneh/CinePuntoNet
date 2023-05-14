@@ -17,7 +17,7 @@ namespace Cinemania
 
         public List<Funcion> misFunciones { get; set; }
 
-        public Sala(int id, string ubicacion, int capacidad, List<Funcion> misFunciones) { 
+        public Sala(int id, string ubicacion, int capacidad) { 
 
             this.id = id;
             this.ubicacion = ubicacion;

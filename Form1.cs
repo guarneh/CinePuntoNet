@@ -9,6 +9,8 @@ namespace Cinemania
         private Perfil hijoPerfil;
         private Register hijoRegister;
         private PerfilUsuario hijoPerfilUsuario;
+        private CambiarPassword hijoCambiarPassword;
+        
 
         public Form1()
         {
@@ -104,6 +106,7 @@ namespace Cinemania
             hijoPerfilUsuario = new PerfilUsuario(cine);
             hijoPerfilUsuario.MdiParent = this;
             hijoPerfilUsuario.transfMain += usuarioToMain;
+            hijoPerfilUsuario.transfCambiarPassword += usuarioToCambiarPassword;
             hijoPerfilUsuario.Show();
             
         }
@@ -119,6 +122,25 @@ namespace Cinemania
             hijoMain.Show();
 
 
+        }
+        private void usuarioToCambiarPassword()
+        {
+            hijoPerfilUsuario.Close();
+            hijoCambiarPassword = new CambiarPassword(cine);
+            hijoCambiarPassword.MdiParent = this;
+            hijoCambiarPassword.passToUsuario += cambiarPassToUsuario;
+            hijoCambiarPassword.Show();
+
+
+        }
+
+        private void cambiarPassToUsuario()
+        { 
+            hijoCambiarPassword.Close();
+            hijoPerfilUsuario = new PerfilUsuario(cine);
+            hijoPerfilUsuario.transfMain += usuarioToMain;
+            hijoPerfilUsuario.transfCambiarPassword += usuarioToCambiarPassword;
+            hijoPerfilUsuario.Show();
         }
     }
 }

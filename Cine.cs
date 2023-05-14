@@ -9,15 +9,15 @@ namespace Cinemania
 {
     public class Cine
     {
-        public List<Usuario> usuarios;
-        public List<Funcion> funciones;
-        public List<Sala> salas;
-        public List<Pelicula> peliculas;
+        private List<Usuario> usuarios;
+        private List<Funcion> funciones;
+        private List<Sala> salas;
+        private List<Pelicula> peliculas;
         private Usuario usuarioActual;
-        public int cantUsuarios;
-        public int cantPeliculas;
-        public int cantSalas;
-        public int cantFunciones;
+        private int cantUsuarios;
+        private int cantPeliculas;
+        private int cantSalas;
+        private int cantFunciones;
         public Cine()
         {
             this.usuarios = new List<Usuario>();
@@ -46,7 +46,7 @@ namespace Cinemania
         }
         public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, int intentos, bool bloqueo, double credit)
         {
-            usuarios.Add(new Usuario(cantUsuarios, dni, nombre, apellido, mail, password, fechaNacimiento, obtenerFunciones(), esAdmin, intentos, bloqueo, credit));
+            usuarios.Add(new Usuario(cantUsuarios, dni, nombre, apellido, mail, password, fechaNacimiento,  esAdmin, intentos, bloqueo, credit));
 
             cantUsuarios++;
 
@@ -119,8 +119,8 @@ namespace Cinemania
 
         public bool agregarPelicula(string nombre, string sinop, string poster, int duracion)
         {
-            List<Funcion> misFunciones = new List<Funcion>();
-            peliculas.Add(new Pelicula(cantPeliculas, nombre, sinop, poster, misFunciones, duracion));
+            
+            peliculas.Add(new Pelicula(cantPeliculas, nombre, sinop, poster, duracion));
             cantPeliculas++;
             return true;
 
@@ -173,8 +173,8 @@ namespace Cinemania
 
         public bool agregarSala(string ubicacion, int capcidad)
         {
-            List<Funcion> misFunciones = new List<Funcion>();
-            salas.Add(new Sala(cantSalas, ubicacion, capcidad, misFunciones));
+            
+            salas.Add(new Sala(cantSalas, ubicacion, capcidad));
             cantSalas++;
 
             return true;
@@ -236,6 +236,7 @@ namespace Cinemania
                     {
                         if (user.Bloqueado == false)
                         {
+                            user.IntentosFallidos = 0;
                             usuarioActual = user;
                             return true;
                         }
@@ -500,6 +501,19 @@ namespace Cinemania
             }
             return false;
 
+        }
+
+        public bool cambiarPassword(string passwordActual, string passwordNueva)
+        {
+            if (usuarioLogueado().Password.Equals(passwordActual))
+            {
+                usuarioLogueado().Password = passwordNueva;
+                return true;
+            }
+            else
+            {
+            return false;    
+            }
         }
             
     }

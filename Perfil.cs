@@ -422,7 +422,7 @@ namespace Cinemania
         private void actualizarFuncionPelicula()
         {
             dataGridView5.Rows.Clear();
-            foreach (Pelicula p in cine.peliculas)
+            foreach (Pelicula p in cine.obtenerPeliculas())
             {
                 if (p.id == selectedMovie)
                 {
@@ -518,7 +518,7 @@ namespace Cinemania
         private void actualizarFuncionSala()
         {
             dataGridView6.Rows.Clear();
-            foreach (Sala s in cine.salas)
+            foreach (Sala s in cine.obtenerSalas())
             {
                 if (s.id == selectedSala)
                 {
@@ -652,7 +652,7 @@ namespace Cinemania
         private void actualizarDatosMisFunciones()
         {
 
-            foreach (Usuario user in cine.usuarios)
+            foreach (Usuario user in cine.obtenerUsuarios())
             {
                 if (user.id == selectedUser)
                 {

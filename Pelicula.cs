@@ -20,7 +20,7 @@ namespace Cinemania
 
         public int duracion { get; set; }
 
-        public Pelicula(int id, string nombre, string sinopsis, string poster,List<Funcion> misFunciones,  int duracion)
+        public Pelicula(int id, string nombre, string sinopsis, string poster, int duracion)
         {
             this.id = id;
             this.nombre = nombre;
