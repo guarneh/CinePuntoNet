@@ -25,7 +25,7 @@ namespace Cinemania
             this.usuarios = db.inicializarUsuarios();
             this.peliculas = db.inicializarPeliculas();
             this.salas = db.inicializarSalas();
-            this.funciones =
+            this.funciones = db.inicializarFunciones();
             cantUsuarios = 1;
             cantPeliculas = 1;
             cantSalas = 1;
