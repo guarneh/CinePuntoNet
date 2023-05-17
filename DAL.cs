@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using System.Net;
 
 namespace Cinemania
 {
@@ -15,6 +16,7 @@ namespace Cinemania
             connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
         }
 
+        // ABM Usuario
         public List<Usuario> inicializarUsuarios()
         {
             List<Usuario> misUsuarios = new List<Usuario>();
@@ -46,6 +48,62 @@ namespace Cinemania
                     Console.WriteLine(ex);
                 }
                 return misUsuarios;
+            }
+        }
+
+        public int agregarUsuario(int dni, string nombre, string apellido, string mail,string password,int intentosFallidos, bool bloqueado, double credito, DateTime fechaNacimiento, bool esAdmin)
+        {
+            int resultadoQuery;
+            int idNuevoUsuario = -1;
+            string queryString = "INSERT INTO [dbo].[Usuario]([dni],[nombre],[apellido],[mail],[password],[intentosFallidos],[bloqueado],[credito],[fechaNacimiento],[esAdmin]) VALUES (@dni,@nombre,@apellido,@mail,@password,@intentosFallidos,@bloqueado,@credito,@fechaNacimiento,@esAdmin)";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@dni", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@intentosFallidos", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@credito", SqlDbType.Float));
+                command.Parameters.Add(new SqlParameter("@fechaNacimiento", SqlDbType.Date));
+                command.Parameters.Add(new SqlParameter("@esAdmin", SqlDbType.Bit));
+                command.Parameters["@dni"].Value = dni;
+                command.Parameters["@nombre"].Value = nombre;
+                command.Parameters["@apellido"].Value = apellido;
+                command.Parameters["@mail"].Value = mail;
+                command.Parameters["@password"].Value = password;
+                command.Parameters["@intentosFallidos"].Value = esAdmin;
+                command.Parameters["@bloqueado"].Value = bloqueado;
+                command.Parameters["@credito"].Value = credito;
+                command.Parameters["@fechaNacimiento"].Value = fechaNacimiento;
+                command.Parameters["@esAdmin"].Value = esAdmin;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+
+                    //*******************************************
+                    //Ahora hago esta query para obtener el ID
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Usuario]";
+                    command = new SqlCommand(ConsultaID, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    idNuevoUsuario = reader.GetInt32(0);
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("no anda nada");
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                return idNuevoUsuario;
             }
         }
 

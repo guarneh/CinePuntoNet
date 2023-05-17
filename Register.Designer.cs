@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            checkBox1 = new CheckBox();
             button2 = new Button();
             label6 = new Label();
             dateTimePicker1 = new DateTimePicker();
@@ -44,16 +43,6 @@
             textBox1 = new TextBox();
             btnToLogin = new Button();
             SuspendLayout();
-            // 
-            // checkBox1
-            // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(250, 336);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(102, 19);
-            checkBox1.TabIndex = 32;
-            checkBox1.Text = "Administrador";
-            checkBox1.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
@@ -182,7 +171,6 @@
             AutoSize = true;
             ClientSize = new Size(820, 500);
             Controls.Add(btnToLogin);
-            Controls.Add(checkBox1);
             Controls.Add(button2);
             Controls.Add(label6);
             Controls.Add(dateTimePicker1);
@@ -206,8 +194,6 @@
         }
 
         #endregion
-
-        private CheckBox checkBox1;
         private Button button2;
         private Label label6;
         private DateTimePicker dateTimePicker1;
