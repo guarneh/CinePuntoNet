@@ -18,12 +18,14 @@ namespace Cinemania
         private int cantPeliculas;
         private int cantSalas;
         private int cantFunciones;
+        private DAL db;
         public Cine()
         {
-            this.usuarios = new List<Usuario>();
-            this.peliculas = new List<Pelicula>();
-            this.salas = new List<Sala>();
-            this.funciones = new List<Funcion>();
+            DAL db = new DAL();
+            this.usuarios = db.inicializarUsuarios();
+            this.peliculas = db.inicializarPeliculas();
+            this.salas = db.inicializarSalas();
+            this.funciones =
             cantUsuarios = 1;
             cantPeliculas = 1;
             cantSalas = 1;
@@ -339,8 +341,8 @@ namespace Cinemania
             }
             else
             {
-                List<Usuario> clientes = new List<Usuario>();
-                Funcion miFuncion = new Funcion(cantFunciones, miSala, miPelicula, clientes, fecha, 0, costo);
+                
+                Funcion miFuncion = new Funcion(cantFunciones, miSala, miPelicula, fecha, 0, costo);
                 miPelicula.misFunciones.Add(miFuncion);
                 miSala.misFunciones.Add(miFuncion);
                 funciones.Add(miFuncion);

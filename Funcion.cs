@@ -1,4 +1,4 @@
-﻿miusing System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +22,7 @@ namespace Cinemania
 
         public double costo { get; set; }
 
-        public Funcion(int ID, Sala miSala, Pelicula miPelicula, List<Usuario> clientes, DateTime fecha, int cantClientes, double costo) 
+        public Funcion(int ID, Sala miSala, Pelicula miPelicula, DateTime fecha, int cantClientes, double costo) 
         {
             this.ID = ID;
             this.miSala = miSala;
