@@ -339,8 +339,8 @@ namespace Cinemania
             }
             else
             {
-                List<Usuario> clientes = new List<Usuario>();
-                Funcion miFuncion = new Funcion(cantFunciones, miSala, miPelicula, clientes, fecha, 0, costo);
+                
+                Funcion miFuncion = new Funcion(cantFunciones, miSala, miPelicula, fecha, 0, costo);
                 miPelicula.misFunciones.Add(miFuncion);
                 miSala.misFunciones.Add(miFuncion);
                 funciones.Add(miFuncion);
