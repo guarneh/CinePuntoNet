@@ -13,6 +13,7 @@ namespace Cinemania
         private List<Funcion> funciones;
         private List<Sala> salas;
         private List<Pelicula> peliculas;
+        private List<FuncionUsuario> funcionUsuarios;
         private Usuario usuarioActual;
         private int cantUsuarios;
         private int cantPeliculas;
@@ -22,10 +23,11 @@ namespace Cinemania
         public Cine()
         {
             DAL db = new DAL();
-            this.usuarios = db.inicializarUsuarios();
             this.peliculas = db.inicializarPeliculas();
             this.salas = db.inicializarSalas();
-            this.funciones =
+            this.usuarios = db.inicializarUsuarios();
+            this.funciones = db.inicializarFunciones();
+            this.funcionUsuarios = db.inicializarFuncionUsuario();
             cantUsuarios = 1;
             cantPeliculas = 1;
             cantSalas = 1;
@@ -48,7 +50,7 @@ namespace Cinemania
         }
         public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, int intentos, bool bloqueo, double credit)
         {
-            usuarios.Add(new Usuario(cantUsuarios, dni, nombre, apellido, mail, password, fechaNacimiento,  esAdmin, intentos, bloqueo, credit));
+            usuarios.Add(new Usuario(cantUsuarios, dni, nombre, apellido, mail, password, intentos,  bloqueo, credit, fechaNacimiento, esAdmin));
 
             cantUsuarios++;
 

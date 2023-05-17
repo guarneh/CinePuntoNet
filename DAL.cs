@@ -19,7 +19,7 @@ namespace Cinemania
         {
             List<Usuario> misUsuarios = new List<Usuario>();
 
-            string queryString = "SELECT * from Usuarios";
+            string queryString = "SELECT * from Usuario";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
@@ -34,7 +34,7 @@ namespace Cinemania
 
                     while (reader.Read())
                     {
-                        aux = new Usuario(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetDateTime(6), reader.GetBoolean(7), reader.GetInt32(8), reader.GetBoolean(9), reader.GetDouble(9));
+                        aux = new Usuario(reader.GetInt32(0),reader.GetInt32(1),reader.GetString(2),reader.GetString(3),reader.GetString(4),reader.GetString(5),reader.GetInt32(6),reader.GetBoolean(7),reader.GetDouble(8),reader.GetDateTime(9),reader.GetBoolean());
                         misUsuarios.Add(aux);
                     }
 
@@ -42,6 +42,7 @@ namespace Cinemania
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show("esto anda re mal");
                     Console.WriteLine(ex);
                 }
                 return misUsuarios;
@@ -177,6 +178,68 @@ namespace Cinemania
                 return misFunciones;
             }
 
+        }
+
+        public List<FuncionUsuario> inicializarFuncionUsuario()
+        {
+            List<FuncionUsuario> misFuncionesUsuario = new List<FuncionUsuario>();
+            List<Usuario> misUsuarios = inicializarUsuarios();
+            List<Funcion> misFunciones = inicializarFunciones();
+
+            string queryString = "SELECT * FROM funcionUsuario";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    FuncionUsuario aux;
+                    Funcion miFuncion = null;
+                    Usuario miUsuario = null;
+                    int idFuncion;
+                    int idUsuario;
+
+                    while (reader.Read())
+                    {
+                        idUsuario = reader.GetInt32(0);
+                        idFuncion = reader.GetInt32(1);
+                        
+                        foreach (Usuario user in misUsuarios)
+                        {
+                            if (user.id == idUsuario)
+                            {
+                                miUsuario = user;
+                                break;
+                            }
+                        }
+                        foreach (Funcion f in misFunciones)
+                        {
+                            if (f.ID == idFuncion)
+                            {
+                                miFuncion = f;
+                                break;
+                            }
+                        }
+
+
+                        aux = new FuncionUsuario(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2));
+                        misFuncionesUsuario.Add(aux);
+                        miUsuario.MisFunciones.Add(miFuncion);
+                        miFuncion.clientes.Add(miUsuario);
+                    }
+
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                return misFuncionesUsuario;
+            }
         }
     }
 }
