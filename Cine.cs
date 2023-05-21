@@ -23,13 +23,13 @@ namespace Cinemania
         private DAL db;
         public Cine()
         {
-            peliculas = new List<Pelicula>();
-            salas = new List<Sala>();
-            usuarios = new List<Usuario>();
-            funciones = new List<Funcion>();
-            funcionUsuarios = new List<FuncionUsuario>();
             db = new DAL();
-            inicializarAtributos();
+            this.peliculas = db.inicializarPeliculas();
+            this.salas = db.inicializarSalas();
+            this.usuarios = db.inicializarUsuarios();
+            this.funciones = db.inicializarFunciones();
+            this.funcionUsuarios = db.inicializarFuncionUsuario();
+            
             cantPeliculas = 1;
             cantSalas = 1;
             cantFunciones = 1;
