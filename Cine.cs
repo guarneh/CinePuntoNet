@@ -23,19 +23,43 @@ namespace Cinemania
         private DAL db;
         public Cine()
         {
-            DAL db = new DAL();
-            this.peliculas = db.inicializarPeliculas();
-            this.salas = db.inicializarSalas();
-            this.usuarios = db.inicializarUsuarios();
-            this.funciones = db.inicializarFunciones();
-            this.funcionUsuarios = db.inicializarFuncionUsuario();
-            
+            peliculas = new List<Pelicula>();
+            salas = new List<Sala>();
+            usuarios = new List<Usuario>();
+            funciones = new List<Funcion>();
+            funcionUsuarios = new List<FuncionUsuario>();
+            db = new DAL();
+            inicializarAtributos();
             cantPeliculas = 1;
             cantSalas = 1;
             cantFunciones = 1;
 
             
 
+        }
+
+        public void inicializarAtributos()
+        { 
+            peliculas = db.inicializarPeliculas();
+            salas = db.inicializarSalas();
+            usuarios = db.inicializarUsuarios();
+            funciones = db.inicializarFunciones();
+            funcionUsuarios = db.inicializarFuncionUsuario();
+
+            foreach (FuncionUsuario fu in funcionUsuarios)
+            {
+                foreach (Funcion f in funciones)
+                {
+                    foreach (Usuario u in usuarios)
+                    {
+                        if (fu.idUsuario == u.id && fu.idFuncion==f.ID)
+                        {
+                            u.MisFunciones.Add(f);
+                            f.clientes.Add(u);
+                        }
+                    }
+                }
+            }
         }
 
 
