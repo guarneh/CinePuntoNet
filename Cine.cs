@@ -23,7 +23,7 @@ namespace Cinemania
         private DAL db;
         public Cine()
         {
-            DAL db = new DAL();
+            db = new DAL();
             this.peliculas = db.inicializarPeliculas();
             this.salas = db.inicializarSalas();
             this.usuarios = db.inicializarUsuarios();
