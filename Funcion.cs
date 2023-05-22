@@ -10,6 +10,10 @@ namespace Cinemania
     {
         public int ID { get; set; }
 
+        public int idSala { get; set; }
+
+        public int idPelicula { get; set; }
+
         public Sala miSala { get; set; }
 
         public Pelicula miPelicula { get; set; }
@@ -22,11 +26,11 @@ namespace Cinemania
 
         public double costo { get; set; }
 
-        public Funcion(int ID, Sala miSala, Pelicula miPelicula, DateTime fecha, int cantClientes, double costo) 
+        public Funcion(int ID, int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo) 
         {
             this.ID = ID;
-            this.miSala = miSala;
-            this.miPelicula = miPelicula;
+            this.idSala = idSala;
+            this.idPelicula = idPelicula;
             this.clientes = new List<Usuario>();
             this.fecha = fecha;
             this.cantClientes = clientes.Count;

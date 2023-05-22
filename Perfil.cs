@@ -133,63 +133,22 @@ namespace Cinemania
 
         private void button3_Click(object sender, EventArgs e)
         {
-
-
-            string textoTextBox2 = textBox2.Text;
-            int dni;
-            bool success = int.TryParse(textoTextBox2, out dni);
-            if (success)
-            {
-                Console.WriteLine("La conversión fue exitosa: " + textoTextBox2);
-            }
-            else
-            {
-                Console.WriteLine("La conversión falló.");
-            }
-
-            //int dni = int.Parse(textoTextBox2);
-
+            int dni = Int32.Parse(textBox2.Text);
+            string mail = textBox5.Text;
             string nombre = textBox3.Text;
             string apellido = textBox4.Text;
-            string mail = textBox5.Text;
-            string pass = textBox6.Text;
+            string password = textBox6.Text;
+            double credito = double.Parse(textBox8.Text);
+            int intentosFallidos = Int32.Parse(textBox7.Text);
             DateTime fechaNacimiento = dateTimePicker1.Value;
             bool esAdmin = checkBox1.Checked;
-
-
-            string textoTextBox7 = textBox7.Text;
-            int intentos;
-            bool success2 = int.TryParse(textoTextBox7, out intentos);
-            if (success2)
-            {
-                Console.WriteLine("La conversión fue exitosa: " + textoTextBox7);
-            }
-            else
-            {
-                Console.WriteLine("La conversión falló.");
-            }
-
-            bool bloqueo = checkBox2.Checked;
-
-            string textoTextBox8 = textBox8.Text;
-            int credito;
-            bool success3 = int.TryParse(textoTextBox8, out credito);
-            if (success3)
-            {
-                Console.WriteLine("La conversión fue exitosa: " + textoTextBox8);
-            }
-            else
-            {
-                Console.WriteLine("La conversión falló.");
-            }
-
-
+            bool bloqueado = checkBox2.Checked;
 
 
             if (selectedUser != 0)
             {
 
-                if (cine.modificarUsuario(selectedUser, dni, nombre, apellido, mail, pass, fechaNacimiento, esAdmin, intentos, bloqueo, credito))
+                if (cine.modificarUsuario(selectedUser,dni,nombre,apellido,mail,password,fechaNacimiento,esAdmin,intentosFallidos,bloqueado,credito))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Problemas al modificar");
@@ -287,7 +246,7 @@ namespace Cinemania
 
             else
 
-                if (cine.agregarUsuario(dni, nombre, apellido, mail, pass, fechaNacimiento, esAdmin, intentos, bloqueo, credito))
+                if (cine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento,esAdmin,intentos,bloqueo,credito))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Problemas al agregar");

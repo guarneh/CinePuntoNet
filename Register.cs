@@ -31,9 +31,7 @@ namespace Cinemania
             string pass = textBox5.Text;
             DateTime fechaNacimiento = dateTimePicker1.Value;
             
-            int intentos = 0;
-            bool bloqueo = false;
-            double credit = 0;
+            
             textBox1.Clear();
             textBox2.Clear();
             textBox3.Clear();
@@ -43,7 +41,7 @@ namespace Cinemania
             if (dni != null && nombre != null && nombre != "" && apellido != null && apellido != "" && mail != null && mail != "" && pass != null && pass != "" && fechaNacimiento != null)
             {
 
-                if (miCine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento,false,intentos,bloqueo,credit))
+                if (miCine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento,false,0,false,0))
                 {
                     MessageBox.Show("Registrado con éxito");
                     this.registerToLogin();

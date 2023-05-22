@@ -14,9 +14,9 @@ namespace Cinemania
         public DAL()
         {
             //conexion laptop
-            connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            //connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
             //conexion pc Casa
-            //connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
         }
 
         // ABM Usuario
@@ -110,6 +110,75 @@ namespace Cinemania
             }
         }
 
+        public int eliminarUsuario(int id)
+        {
+            string queryString = "DELETE FROM [dbo].[Usuario] WHERE id=@id";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+
+        }
+
+        public int modificarUsuario(int id,int dni, string nombre,string apellido,string mail,string password,int intentosFallidos,bool bloqueado,double credito,DateTime fechaNacimiento,bool esAdmin)
+        {
+            string queryString = "UPDATE [dbo].[Usuario] SET [dni] =@dni,[nombre] = @nombre,[apellido] = @apellido,[mail] = @mail,[password] = @password ,[intentosFallidos] = @intentosFallidos,[bloqueado] = @bloqueado,[credito] = @credito ,[fechaNacimiento] = @fechaNacimiento,[esAdmin] =@esAdmin WHERE id = @id";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@dni", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@apellido", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@mail", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@password", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@intentosFallidos", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@bloqueado", SqlDbType.Bit));
+                command.Parameters.Add(new SqlParameter("@credito", SqlDbType.Float));
+                command.Parameters.Add(new SqlParameter("@fechaNacimiento", SqlDbType.DateTime));
+                command.Parameters.Add(new SqlParameter("@esAdmin", SqlDbType.Bit));
+                command.Parameters["@id"].Value = id;
+                command.Parameters["@dni"].Value = dni;
+                command.Parameters["@nombre"].Value = nombre;
+                command.Parameters["@apellido"].Value = apellido;
+                command.Parameters["@mail"].Value = mail;
+                command.Parameters["@password"].Value = password;
+                command.Parameters["@intentosFallidos"].Value = intentosFallidos;
+                command.Parameters["@bloqueado"].Value = bloqueado;
+                command.Parameters["@credito"].Value = credito;
+                command.Parameters["@fechaNacimiento"].Value = fechaNacimiento;
+                command.Parameters["@esAdmin"].Value = esAdmin;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        
+
         public List<Pelicula> inicializarPeliculas()
         {
             List<Pelicula> misPeliculas = new List<Pelicula>();
@@ -180,8 +249,7 @@ namespace Cinemania
         public List<Funcion> inicializarFunciones()
         {
             List<Funcion> misFunciones = new List<Funcion>();
-            List<Sala> misSalas = inicializarSalas();
-            List<Pelicula> misPeliculas = inicializarPeliculas();
+           
 
             string queryString = "SELECT * FROM Funcion";
 
@@ -195,37 +263,16 @@ namespace Cinemania
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
                     Funcion aux;
-                    Pelicula miPeli = null;
-                    Sala miSala = null;
-                    int idPelicula;
-                    int idSala;
+                   
 
                     while (reader.Read())
                     {
-                        idPelicula = reader.GetInt32(2);
-                        idSala = reader.GetInt32(1);
-                        foreach (Sala s in misSalas)
-                        {
-                            if (s.id == idSala)
-                            {
-                                miSala = s;
-                                break;
-                            }
-                        }
-                        foreach (Pelicula p in misPeliculas)
-                        {
-                            if (p.id == idPelicula)
-                            {
-                                miPeli = p;
-                                break;
-                            }
-                        }
+                        
 
 
-                        aux = new Funcion(reader.GetInt32(0), miSala, miPeli, reader.GetDateTime(3), reader.GetInt32(4), reader.GetDouble(5));
+                        aux = new Funcion(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2), reader.GetDateTime(3), reader.GetInt32(4), reader.GetDouble(5));
                         misFunciones.Add(aux);
-                        miPeli.misFunciones.Add(aux);
-                        miSala.misFunciones.Add(aux);
+                       
 
 
                     }

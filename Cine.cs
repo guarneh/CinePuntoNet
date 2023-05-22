@@ -46,6 +46,27 @@ namespace Cinemania
             funciones = db.inicializarFunciones();
             funcionUsuarios = db.inicializarFuncionUsuario();
 
+
+            foreach (Funcion f in funciones)
+            {
+                foreach (Pelicula p in peliculas)
+                {
+                    if (f.idPelicula == p.id)
+                    {
+                        p.misFunciones.Add(f);
+                        f.miPelicula = p;
+                    }
+                }
+                foreach (Sala s in salas)
+                {
+                    if (f.idSala == s.id)
+                    {
+                        s.misFunciones.Add(f);
+                        f.miSala = s;
+                    }
+                }
+            }
+
             foreach (FuncionUsuario fu in funcionUsuarios)
             {
                 foreach (Funcion f in funciones)
@@ -108,31 +129,44 @@ namespace Cinemania
 
         {
 
-            foreach (Usuario user in usuarios)
+            if (db.modificarUsuario(id,dni,nombre,apellido,mail,password,intFallidos,bloqueado,credito,fechaN,esAdm) == 1)
             {
-                if (user.id == id)
+                try
                 {
-                    user.DNI = dni;
-
-                    user.Password = password;
-                    user.Nombre = nombre;
-                    user.Apellido = apellido;
-                    user.Mail = mail;
-                    user.IntentosFallidos = intFallidos;
-                    user.Bloqueado = bloqueado;
-                    user.Credito = credito;
-                    user.EsAdmin = esAdm;
-                    user.FechaNacimiento = fechaN;
-
-
+                    //Ahora sí lo MODIFICO en la lista
+                    foreach (Usuario u in usuarios)
+                    {
+                        if (u.id == id)
+                        {
+                            u.DNI = dni;
+                            u.Nombre = nombre;
+                            u.Apellido = apellido;
+                            u.Mail = mail;
+                            u.Password = password;
+                            u.FechaNacimiento = fechaN;
+                            u.EsAdmin = esAdm;
+                            u.IntentosFallidos = intFallidos;
+                            u.Bloqueado = bloqueado;
+                            u.Credito = credito;
+                        }
+                    }
                     return true;
                 }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
-            return false;
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
         }
 
         public bool modificarMisDatos(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento)
         {
+
 
             if (usuarioActual.id == id)
             {
@@ -150,19 +184,29 @@ namespace Cinemania
 
         public bool eliminarUsuario(int id)
         {
-            foreach (Usuario user in usuarios)
+            if (db.eliminarUsuario(id) == 1)
             {
-                if (usuarioActual.id != id)
+                try
                 {
-                    if (user.id == id)
-                    {
-                        usuarios.Remove(user);
-                        return true;
-                    }
+                    //Ahora sí lo elimino en la lista
+                    foreach (Usuario u in usuarios)
+                        if (u.id == id)
+                        {
+                            usuarios.Remove(u);
+                            return true;
+                        }
+                    return false;
                 }
-
+                catch (Exception)
+                {
+                    return false;
+                }
             }
-            return false;
+            else
+            {
+                //algo salió mal con la query porque no generó 1 registro
+                return false;
+            }
         }
 
         // Inicia ABM de Peliculas
@@ -390,7 +434,9 @@ namespace Cinemania
             else
             {
                 
-                Funcion miFuncion = new Funcion(cantFunciones, miSala, miPelicula, fecha, 0, costo);
+                Funcion miFuncion = new Funcion(cantFunciones, idSala, idPelicula, fecha, 0, costo);
+                miFuncion.miPelicula = miPelicula;
+                miFuncion.miSala = miSala;
                 miPelicula.misFunciones.Add(miFuncion);
                 miSala.misFunciones.Add(miFuncion);
                 funciones.Add(miFuncion);
