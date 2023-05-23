@@ -555,7 +555,7 @@ namespace Cinemania
                 command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
                 command.Parameters.Add(new SqlParameter("@idSala", SqlDbType.NVarChar));
                 command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
-                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.DateTime));
                 command.Parameters.Add(new SqlParameter("@cantClientes", SqlDbType.Int));
                 command.Parameters.Add(new SqlParameter("@costo", SqlDbType.Int));
                 command.Parameters["@id"].Value = id;
