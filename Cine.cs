@@ -291,11 +291,9 @@ namespace Cinemania
                             }
                             peliculas.Remove(p);
 
-                            return true;
-
-                        }
-
-                    }
+                    return true;
+                }
+            }
 
                 }
                 catch (Exception ex)
@@ -314,23 +312,13 @@ namespace Cinemania
 
         //Inicio ABM Sala
 
-        public bool agregarSala(string ubicacion, int capacidad)
+        public bool agregarSala(string ubicacion, int capcidad)
         {
-            int idNuevaSala;
-            idNuevaSala = db.agregarSala(ubicacion, capacidad);
+            
+            salas.Add(new Sala(cantSalas, ubicacion, capcidad));
+            cantSalas++;
 
-            if (idNuevaSala != -1)
-            {
-                salas.Add(new Sala(idNuevaSala, ubicacion, capacidad));
-               
-
-                return true;
-                
-            }
-            else
-            {
-                return false;
-            }
+            return true;
 
 
 
@@ -397,19 +385,8 @@ namespace Cinemania
                                 }
                                 salas.Remove(s);
 
-                                return true;
-                            }
-                        }
-            
+                    return true;
                 }
-                catch (Exception ex)
-                {
-                  return false;
-                }
-            }
-            else
-            {
-                return false;
             }
             return false;
         }
@@ -530,22 +507,22 @@ namespace Cinemania
                             }
 
 
-                        }
-                        if (miPelicula == null || miSala == null)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-
-                            Funcion miFuncion = new Funcion(idNuevaFuncion, idSala, idPelicula, fecha, 0, costo);
-                            miFuncion.miPelicula = miPelicula;
-                            miFuncion.miSala = miSala;
-                            miPelicula.misFunciones.Add(miFuncion);
-                            miSala.misFunciones.Add(miFuncion);
-                            funciones.Add(miFuncion);
-                            cantFunciones++;
-                            return true;
+            }
+            if (miPelicula == null || miSala == null)
+            {
+                return false;
+            }
+            else
+            {
+                
+                Funcion miFuncion = new Funcion(cantFunciones, idSala, idPelicula, fecha, 0, costo);
+                miFuncion.miPelicula = miPelicula;
+                miFuncion.miSala = miSala;
+                miPelicula.misFunciones.Add(miFuncion);
+                miSala.misFunciones.Add(miFuncion);
+                funciones.Add(miFuncion);
+                cantFunciones++;
+                return true;
 
                         }
 
