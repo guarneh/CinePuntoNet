@@ -99,6 +99,8 @@
             Column14 = new DataGridViewTextBoxColumn();
             Column15 = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
+            label22 = new Label();
+            label21 = new Label();
             labMostrarIdFuncion = new Label();
             labIdFuncion = new Label();
             textBoxCosto = new TextBox();
@@ -144,8 +146,8 @@
             button13 = new Button();
             button5 = new Button();
             dataGridViewTextBoxColumn3 = new DataGridViewTextBoxColumn();
-            label21 = new Label();
-            label22 = new Label();
+            Clientes = new Label();
+            labCantClientes = new Label();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -765,6 +767,8 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(labCantClientes);
+            tabPage3.Controls.Add(Clientes);
             tabPage3.Controls.Add(label22);
             tabPage3.Controls.Add(label21);
             tabPage3.Controls.Add(labMostrarIdFuncion);
@@ -788,6 +792,24 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Funciones";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(672, 54);
+            label22.Name = "label22";
+            label22.Size = new Size(27, 15);
+            label22.TabIndex = 14;
+            label22.Text = "----";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(622, 54);
+            label21.Name = "label21";
+            label21.Size = new Size(18, 15);
+            label21.TabIndex = 13;
+            label21.Text = "ID";
             // 
             // labMostrarIdFuncion
             // 
@@ -879,7 +901,7 @@
             // 
             // btnEliminarFunciones
             // 
-            btnEliminarFunciones.Location = new Point(656, 277);
+            btnEliminarFunciones.Location = new Point(654, 320);
             btnEliminarFunciones.Name = "btnEliminarFunciones";
             btnEliminarFunciones.Size = new Size(75, 23);
             btnEliminarFunciones.TabIndex = 3;
@@ -889,7 +911,7 @@
             // 
             // btnModificarFuncion
             // 
-            btnModificarFuncion.Location = new Point(656, 248);
+            btnModificarFuncion.Location = new Point(654, 291);
             btnModificarFuncion.Name = "btnModificarFuncion";
             btnModificarFuncion.Size = new Size(75, 23);
             btnModificarFuncion.TabIndex = 2;
@@ -899,7 +921,7 @@
             // 
             // btnAgregarFuncion
             // 
-            btnAgregarFuncion.Location = new Point(656, 219);
+            btnAgregarFuncion.Location = new Point(654, 262);
             btnAgregarFuncion.Name = "btnAgregarFuncion";
             btnAgregarFuncion.Size = new Size(75, 23);
             btnAgregarFuncion.TabIndex = 1;
@@ -1144,23 +1166,23 @@
             dataGridViewTextBoxColumn3.HeaderText = "Funcion";
             dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
             // 
-            // label21
+            // Clientes
             // 
-            label21.AutoSize = true;
-            label21.Location = new Point(622, 54);
-            label21.Name = "label21";
-            label21.Size = new Size(18, 15);
-            label21.TabIndex = 13;
-            label21.Text = "ID";
+            Clientes.AutoSize = true;
+            Clientes.Location = new Point(620, 202);
+            Clientes.Name = "Clientes";
+            Clientes.Size = new Size(49, 15);
+            Clientes.TabIndex = 16;
+            Clientes.Text = "Clientes";
             // 
-            // label22
+            // labCantClientes
             // 
-            label22.AutoSize = true;
-            label22.Location = new Point(672, 54);
-            label22.Name = "label22";
-            label22.Size = new Size(27, 15);
-            label22.TabIndex = 14;
-            label22.Text = "----";
+            labCantClientes.AutoSize = true;
+            labCantClientes.Location = new Point(672, 202);
+            labCantClientes.Name = "labCantClientes";
+            labCantClientes.Size = new Size(27, 15);
+            labCantClientes.TabIndex = 17;
+            labCantClientes.Text = "----";
             // 
             // Perfil
             // 
@@ -1317,5 +1339,7 @@
         private Label labIdFuncion;
         private Label label22;
         private Label label21;
+        private Label labCantClientes;
+        private Label Clientes;
     }
 }

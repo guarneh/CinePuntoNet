@@ -46,7 +46,8 @@ namespace Cinemania
             funciones = db.inicializarFunciones();
             funcionUsuarios = db.inicializarFuncionUsuario();
 
-
+            //relacion 
+            
             foreach (Funcion f in funciones)
             {
                 foreach (Pelicula p in peliculas)
@@ -66,6 +67,7 @@ namespace Cinemania
                     }
                 }
             }
+            
 
             foreach (FuncionUsuario fu in funcionUsuarios)
             {
@@ -213,50 +215,97 @@ namespace Cinemania
 
         public bool agregarPelicula(string nombre, string sinop, string poster, int duracion)
         {
-            
-            peliculas.Add(new Pelicula(cantPeliculas, nombre, sinop, poster, duracion));
+            int idNuevaPelicula;
+            idNuevaPelicula = db.agregarPelicula(nombre,sinop,poster,duracion);
+
+            if (idNuevaPelicula != -1)
+            {
+            peliculas.Add(new Pelicula(idNuevaPelicula, nombre, sinop, poster, duracion));
             cantPeliculas++;
-            return true;
+            return true;    
+            }
+            else
+            {
+                return false;
+            }
 
         }
 
         public bool modificarPelicula(int id, string nombre, string sinop, string poster, int duracion)
         {
-            foreach (Pelicula peli in peliculas)
+            if (db.modificarPelicula(id,nombre,sinop,poster,duracion) == 1)
             {
-                if (peli.id == id)
-                {
-                    peli.nombre = nombre;
-                    peli.sinopsis = sinop;
-                    peli.poster = poster;
-                    peli.duracion = duracion;
-                    return true;
+                try
+                { 
+                
+                    foreach (Pelicula peli in peliculas)
+                    {
+                       if (peli.id == id)
+                       {
+                        peli.nombre = nombre;
+                        peli.sinopsis = sinop;
+                        peli.poster = poster;
+                        peli.duracion = duracion;
+                        return true;
+                       }
+                    }
                 }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+                
+            }
+            else
+            {
+                return false;   
             }
             return false;
+
         }
         public bool eliminarPelicula(int id)
         {
-            Pelicula miPeli = null;
-            foreach (Pelicula p in peliculas)
+
+            if (db.eliminarPelicula(id) == 1)
             {
-                if (p.id == id)
+                try
                 {
-                    miPeli = p;
-
-                    Funcion miFuncion = null;
-                    foreach (Funcion f in funciones)
+                    Pelicula miPeli = null;
+                    foreach (Pelicula p in peliculas)
                     {
-                        if (f.miPelicula.id == miPeli.id)
+                        if (p.id == id)
                         {
-                            miFuncion = f;
-                        }
-                    }
-                    eliminarFuncion(miFuncion.ID);
-                    peliculas.Remove(p);
+                            miPeli = p;
 
-                    return true;
+                            Funcion miFuncion = null;
+                            foreach (Funcion f in funciones)
+                            {
+                                if (f.miPelicula.id == miPeli.id)
+                                {
+                                    miFuncion = f;
+                                }
+                            }
+                            if (miFuncion != null)
+                            {
+                            eliminarFuncion(miFuncion.ID);    
+                            }
+                            peliculas.Remove(p);
+
+                            return true;
+
+                        }
+
+                    }
+
                 }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+             }
+            else
+            {
+                return false;
             }
 
             return false;
@@ -265,54 +314,102 @@ namespace Cinemania
 
         //Inicio ABM Sala
 
-        public bool agregarSala(string ubicacion, int capcidad)
+        public bool agregarSala(string ubicacion, int capacidad)
         {
-            
-            salas.Add(new Sala(cantSalas, ubicacion, capcidad));
-            cantSalas++;
+            int idNuevaSala;
+            idNuevaSala = db.agregarSala(ubicacion, capacidad);
 
-            return true;
+            if (idNuevaSala != -1)
+            {
+                salas.Add(new Sala(idNuevaSala, ubicacion, capacidad));
+               
+
+                return true;
+                
+            }
+            else
+            {
+                return false;
+            }
+
+
 
 
         }
 
         public bool modificarSala(int id, string ubicacion, int capacidad)
         {
-            foreach (Sala s in salas)
+            if (db.modificarSala(id,ubicacion, capacidad) == 1)
             {
-                if (s.id == id)
+                
+                try
+                { 
+                        foreach (Sala s in salas)
+                        {
+                            if (s.id == id)
+                            {
+                                s.id = id;
+                                s.ubicacion = ubicacion;
+                                s.capacidad = capacidad;
+                                return true;
+                            }
+                        }
+                        return false;
+                
+                }catch (Exception ex)
                 {
-                    s.id = id;
-                    s.ubicacion = ubicacion;
-                    s.capacidad = capacidad;
-                    return true;
+                   return false;
                 }
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public bool eliminarSala(int id)
         {
-            Sala miSala = null;
-            foreach (Sala s in salas)
+            if (db.eliminarSala(id) == 1)
             {
-                if (s.id == id)
-                {
-                    miSala = s;
-
-                    Funcion miFuncion = null;
-                    foreach (Funcion f in funciones)
-                    {
-                        if (f.miSala.id == miSala.id)
+                
+                try
+                { 
+            
+                        Sala miSala = null;
+                        foreach (Sala s in salas)
                         {
-                            miFuncion = f;
-                        }
-                    }
-                    eliminarFuncion(miFuncion.ID);
-                    salas.Remove(s);
+                            if (s.id == id)
+                            {
+                                miSala = s;
 
-                    return true;
+                                Funcion miFuncion = null;
+                                foreach (Funcion f in funciones)
+                                {
+                                    if (f.miSala.id == miSala.id)
+                                    {
+                                        miFuncion = f;
+                                    }
+                                }
+                                if (miFuncion != null)
+                                {
+                                eliminarFuncion(miFuncion.ID);
+                        
+                                }
+                                salas.Remove(s);
+
+                                return true;
+                            }
+                        }
+            
                 }
+                catch (Exception ex)
+                {
+                  return false;
+                }
+            }
+            else
+            {
+                return false;
             }
             return false;
         }
@@ -399,94 +496,117 @@ namespace Cinemania
 
         public bool agregarFuncion(int idSala, int idPelicula, DateTime fecha, double costo)
         {
-
-            Sala miSala = null;
-
-            foreach (Sala s in salas)
-            {
-
-                if (idSala == s.id)
-                {
-                    miSala = s;
-                    break;
-                }
-
-
-            }
-
-            Pelicula miPelicula = null;
-
-            foreach (Pelicula p in peliculas)
-            {
-
-                if (idPelicula == p.id)
-                {
-                    miPelicula = p;
-                    break;
-                }
-
-
-            }
-            if (miPelicula == null || miSala == null)
-            {
-                return false;
-            }
-            else
+            
+            int idNuevaFuncion;
+            idNuevaFuncion = db.agregarFuncion(idSala,idPelicula,fecha,0,costo);
+            if (idNuevaFuncion != -1)
             {
                 
-                Funcion miFuncion = new Funcion(cantFunciones, idSala, idPelicula, fecha, 0, costo);
-                miFuncion.miPelicula = miPelicula;
-                miFuncion.miSala = miSala;
-                miPelicula.misFunciones.Add(miFuncion);
-                miSala.misFunciones.Add(miFuncion);
-                funciones.Add(miFuncion);
-                cantFunciones++;
-                return true;
+                try
+                    {
+                        Sala miSala = null;
 
+                        foreach (Sala s in salas)
+                        {
+
+                            if (idSala == s.id)
+                            {
+                                miSala = s;
+                                break;
+                            }
+
+
+                        }
+
+                        Pelicula miPelicula = null;
+
+                        foreach (Pelicula p in peliculas)
+                        {
+
+                            if (idPelicula == p.id)
+                            {
+                                miPelicula = p;
+                                break;
+                            }
+
+
+                        }
+                        if (miPelicula == null || miSala == null)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+
+                            Funcion miFuncion = new Funcion(idNuevaFuncion, idSala, idPelicula, fecha, 0, costo);
+                            miFuncion.miPelicula = miPelicula;
+                            miFuncion.miSala = miSala;
+                            miPelicula.misFunciones.Add(miFuncion);
+                            miSala.misFunciones.Add(miFuncion);
+                            funciones.Add(miFuncion);
+                            cantFunciones++;
+                            return true;
+
+                        }
+
+                    } 
+                    catch (Exception)
+                    {
+                        return false;
+                    }
             }
-
-
+            return false;
 
         }
 
         public bool eliminarFuncion(int id)
         {
-            Funcion miFuncion = null;
+            if (db.eliminarFuncion(id) == 1)
+            {  
+                try
+                    {
+                        Funcion miFuncion = null;
 
-            foreach (Funcion f in funciones)
-            {
-                if (f.ID == id)
-                {
-                    miFuncion = f;
-                    break;
-                }
+                        foreach (Funcion f in funciones)
+                        {
+                            if (f.ID == id)
+                            {
+                                miFuncion = f;
+                                break;
+                            }
+                        }
+
+                        Sala miSala = null;
+                        foreach (Sala s in salas)
+                        {
+                            if (s.id == miFuncion.miSala.id)
+                            {
+                                miSala = s;
+                                miSala.misFunciones.Remove(miFuncion);
+                            }
+                        }
+
+                        Pelicula miPelicula = null;
+                        foreach (Pelicula p in peliculas)
+                        {
+                            if (p.id == miFuncion.miPelicula.id)
+                            {
+                                miPelicula = p;
+                                miPelicula.misFunciones.Remove(miFuncion);
+
+                            }
+                        }
+
+                        funciones.Remove(miFuncion);
+
+                        return true;
+                    }
+                    catch (Exception) 
+                    {
+                        return false;
+                    }
             }
-
-            Sala miSala = null;
-            foreach (Sala s in salas)
-            {
-                if (s.id == miFuncion.miSala.id)
-                {
-                    miSala = s;
-                    miSala.misFunciones.Remove(miFuncion);
-                }
-            }
-
-            Pelicula miPelicula = null;
-            foreach (Pelicula p in peliculas)
-            {
-                if (p.id == miFuncion.miPelicula.id)
-                {
-                    miPelicula = p;
-                    miPelicula.misFunciones.Remove(miFuncion);
-
-                }
-            }
-
-            funciones.Remove(miFuncion);
-
-            return true;
-
+            return false;
         }
 
         public bool comprarCredito(double credito)
@@ -552,47 +672,58 @@ namespace Cinemania
 
         }
 
-        public bool modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha, double costo)
+        public bool modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha,int cantClientes ,double costo)
         {
-            foreach (Funcion f in funciones)
+            if (db.modificarFuncion(id,idSala,idPelicula,fecha,cantClientes,costo) == 1)
             {
-                if (f.ID == id)
+                try
                 {
-                    
-                    Pelicula miPeli = f.miPelicula;
-                    miPeli.misFunciones.Remove(f);
-                    Sala miSala = f.miSala;
-                    miSala.misFunciones.Remove(f);
-
-                    foreach (Pelicula p in peliculas)
+                    foreach (Funcion f in funciones)
                     {
-                        if (p.id == idPelicula)
+                        if (f.ID == id)
                         {
-                            miPeli = p;
-                            miPeli.misFunciones.Add(f);
-                            
-                            break;
+
+                            Pelicula miPeli = f.miPelicula;
+                            miPeli.misFunciones.Remove(f);
+                            Sala miSala = f.miSala;
+                            miSala.misFunciones.Remove(f);
+
+                            foreach (Pelicula p in peliculas)
+                            {
+                                if (p.id == idPelicula)
+                                {
+                                    miPeli = p;
+                                    miPeli.misFunciones.Add(f);
+
+                                    break;
+                                }
+                            }
+
+
+                            foreach (Sala s in salas)
+                            {
+                                if (s.id == idSala)
+                                {
+                                    miSala = s;
+                                    miSala.misFunciones.Add(f);
+                                    break;
+                                }
+                            }
+
+                            f.miSala = miSala;
+                            f.miPelicula = miPeli;
+                            f.fecha = fecha;
+                            f.costo = costo;
+
+                            return true;
+
                         }
                     }
-
-
-                    foreach (Sala s in salas)
-                    {
-                        if (s.id == idSala)
-                        {
-                            miSala = s;
-                            miSala.misFunciones.Add(f);
-                            break;
-                        }
-                    }
-
-                    f.miSala = miSala;
-                    f.miPelicula = miPeli;
-                    f.fecha = fecha;
-                    f.costo = costo;
-
-                    return true;
-
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    return false;
                 }
             }
             return false;

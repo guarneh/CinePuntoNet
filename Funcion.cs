@@ -40,7 +40,7 @@ namespace Cinemania
 
         public string[] ToString()
         {
-            return new string[] { ID.ToString(), miSala.ubicacion, miPelicula.nombre, fecha.ToString(), cantClientes.ToString(),costo.ToString() };
+            return new string[] { ID.ToString(),idSala.ToString(), idPelicula.ToString(), fecha.ToString(), cantClientes.ToString(), costo.ToString() };
         }
     }
 }

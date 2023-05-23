@@ -148,7 +148,7 @@ namespace Cinemania
             if (selectedUser != 0)
             {
 
-                if (cine.modificarUsuario(selectedUser,dni,nombre,apellido,mail,password,fechaNacimiento,esAdmin,intentosFallidos,bloqueado,credito))
+                if (cine.modificarUsuario(selectedUser, dni, nombre, apellido, mail, password, fechaNacimiento, esAdmin, intentosFallidos, bloqueado, credito))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Problemas al modificar");
@@ -246,7 +246,7 @@ namespace Cinemania
 
             else
 
-                if (cine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento,esAdmin,intentos,bloqueo,credito))
+                if (cine.agregarUsuario(dni, nombre, apellido, mail, pass, fechaNacimiento, esAdmin, intentos, bloqueo, credito))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Problemas al agregar");
@@ -542,7 +542,7 @@ namespace Cinemania
         {
             if (selectedMovie != 0)
             {
-                if (cine.modificarFuncion(selectedFuncion, int.Parse(textBoxIdSala.Text), int.Parse(textBoxIdPeli.Text), dateTimePickerFuncion.Value, double.Parse(textBoxCosto.Text)))
+                if (cine.modificarFuncion(selectedFuncion, int.Parse(textBoxIdSala.Text), int.Parse(textBoxIdPeli.Text), dateTimePickerFuncion.Value, int.Parse(labCantClientes.Text), double.Parse(textBoxCosto.Text)))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Problemas al modificar");
@@ -570,13 +570,14 @@ namespace Cinemania
             string sala = dataGridViewFunciones[1, e.RowIndex].Value.ToString();
             string pelicula = dataGridViewFunciones[2, e.RowIndex].Value.ToString();
             string fechaString = dataGridViewFunciones[3, e.RowIndex].Value.ToString();
+            string cantClientes = dataGridViewFunciones[4, e.RowIndex].Value.ToString();
             string costoString = dataGridViewFunciones[5, e.RowIndex].Value.ToString();
 
 
             label22.Text = id;
             textBoxIdSala.Text = sala;
             textBoxIdPeli.Text = pelicula;
-
+            labCantClientes.Text = cantClientes;
             selectedFuncion = int.Parse(id);
 
             DateTime fecha;
