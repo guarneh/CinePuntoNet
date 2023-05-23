@@ -13,12 +13,17 @@ namespace Cinemania
 
         public DAL()
         {
+            //conexion Trabajo
+            connectionString = "Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+
             //conexion laptop
             //connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+
             //conexion pc Casa
-            connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            //connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
         }
 
+        //***************************************************************************
         // ABM Usuario
         public List<Usuario> inicializarUsuarios()
         {
@@ -177,6 +182,9 @@ namespace Cinemania
             }
         }
 
+        //*****************************************************************************************
+        // ABM Peliculas
+
         
 
         public List<Pelicula> inicializarPeliculas()
@@ -213,6 +221,111 @@ namespace Cinemania
 
         }
 
+        public int agregarPelicula(string nombre, string sinopsis, string poster, int duracion)
+        {
+            int resultadoQuery;
+            int idNuevaPelicula;
+
+            string queryString = "INSERT INTO [dbo].[Pelicula] ([nombre] ,[sinopsis] ,[poster] ,[duracion]) VALUES (@nombre,@sinopsis ,@poster,@duracion)";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sinopsis", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@poster", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@duracion", SqlDbType.Int));
+                command.Parameters["@nombre"].Value = nombre;
+                command.Parameters["@sinopsis"].Value = sinopsis;
+                command.Parameters["@poster"].Value = poster;
+                command.Parameters["@duracion"].Value = duracion;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+
+                    //*******************************************
+                    //Ahora hago esta query para obtener el ID
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Pelicula]";
+                    command = new SqlCommand(ConsultaID, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    idNuevaPelicula = reader.GetInt32(0);
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("no anda nada");
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                return idNuevaPelicula;
+            }
+
+        }
+
+        public int modificarPelicula(int id,string nombre,string sinopsis, string poster,int duracion)
+        {
+            string queryString = "UPDATE [dbo].[Pelicula] SET [nombre] = @nombre ,[sinopsis] = @sinopsis ,[poster] = @poster ,[duracion] = @duracion WHERE id = @id ";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@nombre", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@sinopsis", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@poster", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@duracion", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                command.Parameters["@nombre"].Value = nombre;
+                command.Parameters["@sinopsis"].Value = sinopsis;
+                command.Parameters["@poster"].Value = poster;
+                command.Parameters["@duracion"].Value = duracion;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+
+        public int eliminarPelicula(int id)
+        {
+            string queryString = "DELETE FROM [dbo].[Pelicula] WHERE id=@id";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        //************************************************************
+        // ABM Salas
+
+
         public List<Sala> inicializarSalas()
         {
             List<Sala> misSalas = new List<Sala>();
@@ -246,6 +359,101 @@ namespace Cinemania
             }
         }
 
+        public int agregarSala(string ubicacion, int capacidad)
+        {
+            int resultadoQuery;
+            int idNuevaSala;
+
+            string queryString = "INSERT INTO [dbo].[Sala] ([ubicacion] ,[capacidad]) VALUES (@ubicacion,@capacidad)";
+
+            using (SqlConnection connection =
+               new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@ubicacion", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@capacidad", SqlDbType.Int));
+                command.Parameters["@ubicacion"].Value = ubicacion;
+                command.Parameters["@capacidad"].Value = capacidad;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+
+                    //*******************************************
+                    //Ahora hago esta query para obtener el ID
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Sala]";
+                    command = new SqlCommand(ConsultaID, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    idNuevaSala = reader.GetInt32(0);
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("no anda nada");
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                return idNuevaSala;
+            }
+        }
+
+        public int eliminarSala(int id)
+        {
+            string queryString = "DELETE FROM [dbo].[Sala] WHERE id=@id";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public int modificarSala(int id, string ubicacion, int capacidad)
+        {
+            string queryString = "UPDATE [dbo].[Sala] SET [ubicacion] = @ubicacion ,[capacidad] = @capacidad  WHERE id = @id";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@ubicacion", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@capacidad", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                command.Parameters["@capacidad"].Value = capacidad;
+                command.Parameters["@ubicacion"].Value = ubicacion;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+
+
+            }
+        }
+
+        //*************************************************
+        // ABM Funciones
         public List<Funcion> inicializarFunciones()
         {
             List<Funcion> misFunciones = new List<Funcion>();
@@ -287,6 +495,111 @@ namespace Cinemania
                 return misFunciones;
             }
 
+        }
+
+        public int agregarFuncion(int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo) 
+        {
+            int resultadoQuery;
+            int idNuevaFuncion;
+
+            string queryString = "INSERT INTO [dbo].[Funcion] ([idSala],[idPelicula],[fecha],[cantClientes],[costo]) VALUES  (@idSala ,@idPelicula,@fecha,@cantClientes,@costo)";
+
+            using (SqlConnection connection =
+               new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idSala", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.DateTime));
+                command.Parameters.Add(new SqlParameter("@cantClientes", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@costo", SqlDbType.Float));
+                command.Parameters["@idSala"].Value = idSala;
+                command.Parameters["@idPelicula"].Value = idPelicula;
+                command.Parameters["@fecha"].Value = fecha;
+                command.Parameters["@cantClientes"].Value = cantClientes;
+                command.Parameters["@costo"].Value = costo;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+
+                    //*******************************************
+                    //Ahora hago esta query para obtener el ID
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Sala]";
+                    command = new SqlCommand(ConsultaID, connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    idNuevaFuncion = reader.GetInt32(0);
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("no anda nada");
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                return idNuevaFuncion;
+            }
+        }
+
+        public int modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo)
+        {
+            string queryString = "UPDATE [dbo].[Funcion] SET [idSala] = @idSala ,[idPelicula] = @idPelicula ,[fecha] = @fecha ,[cantClientes] = @cantClientes ,[costo] = @costo WHERE id = @id";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idSala", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@idPelicula", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@fecha", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@cantClientes", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@costo", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                command.Parameters["@idSala"].Value = idSala;
+                command.Parameters["@idPelicula"].Value = idPelicula;
+                command.Parameters["@fecha"].Value = fecha;
+                command.Parameters["@cantClientes"].Value = cantClientes;
+                command.Parameters["@costo"].Value = costo;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+
+
+            }
+        }
+
+        public int eliminarFuncion(int id)
+        {
+            string queryString = "DELETE FROM [dbo].[Funcion] WHERE id=@id";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@id", SqlDbType.Int));
+                command.Parameters["@id"].Value = id;
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
         }
 
         public List<FuncionUsuario> inicializarFuncionUsuario()
