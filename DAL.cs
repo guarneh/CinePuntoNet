@@ -14,13 +14,13 @@ namespace Cinemania
         public DAL()
         {
             //conexion Trabajo
-            connectionString = "Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            //connectionString = "Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
 
             //conexion laptop
             //connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
 
             //conexion pc Casa
-            //connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
         }
 
         //***************************************************************************
@@ -527,7 +527,7 @@ namespace Cinemania
 
                     //*******************************************
                     //Ahora hago esta query para obtener el ID
-                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Sala]";
+                    string ConsultaID = "SELECT MAX([ID]) FROM [dbo].[Funcion]";
                     command = new SqlCommand(ConsultaID, connection);
                     SqlDataReader reader = command.ExecuteReader();
                     reader.Read();
@@ -602,13 +602,14 @@ namespace Cinemania
             }
         }
 
+        //******************************
+        //ABM FuncionUsuario
         public List<FuncionUsuario> inicializarFuncionUsuario()
         {
             List<FuncionUsuario> misFuncionesUsuario = new List<FuncionUsuario>();
-            List<Usuario> misUsuarios = inicializarUsuarios();
-            List<Funcion> misFunciones = inicializarFunciones();
+           
 
-            string queryString = "SELECT * FROM funcionUsuario";
+            string queryString = "SELECT * FROM [dbo].[funcionUsuario]";
 
             using (SqlConnection connection =
                 new SqlConnection(connectionString))
@@ -620,38 +621,14 @@ namespace Cinemania
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
                     FuncionUsuario aux;
-                    Funcion miFuncion = null;
-                    Usuario miUsuario = null;
-                    int idFuncion;
-                    int idUsuario;
+                    
 
                     while (reader.Read())
                     {
-                        idUsuario = reader.GetInt32(0);
-                        idFuncion = reader.GetInt32(1);
-                        
-                        foreach (Usuario user in misUsuarios)
-                        {
-                            if (user.id == idUsuario)
-                            {
-                                miUsuario = user;
-                                break;
-                            }
-                        }
-                        foreach (Funcion f in misFunciones)
-                        {
-                            if (f.ID == idFuncion)
-                            {
-                                miFuncion = f;
-                                break;
-                            }
-                        }
-
-
+                
                         aux = new FuncionUsuario(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2));
                         misFuncionesUsuario.Add(aux);
-                        miUsuario.MisFunciones.Add(miFuncion);
-                        miFuncion.clientes.Add(miUsuario);
+                        
                     }
 
                     reader.Close();
@@ -661,6 +638,94 @@ namespace Cinemania
                     Console.WriteLine(ex);
                 }
                 return misFuncionesUsuario;
+            }
+        }
+
+        public int agregarFuncionUsuario(int idUsuario,int idFuncion, int cantEntradas)
+        {
+            int resultadoQuery;
+            
+
+            string queryString = "INSERT INTO [dbo].[funcionUsuario] ([idUsuario],[idFuncion],[cantEntradas]) VALUES (@idUsuario,@idFuncion,@cantEntradas)";
+
+            using (SqlConnection connection =
+               new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@cantEntradas", SqlDbType.Int));
+                command.Parameters["@idUsuario"].Value = idUsuario;
+                command.Parameters["@idFuncion"].Value = idFuncion;
+                command.Parameters["@cantEntradas"].Value = cantEntradas;
+
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    resultadoQuery = command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("no anda nada");
+                    Console.WriteLine(ex.Message);
+                    return -1;
+                }
+                return resultadoQuery;
+            }
+        }
+
+        public int eliminarFuncionUsuario(int idUsuario,int idFuncion)
+        {
+            string queryString = "DELETE FROM [dbo].[FuncionUsuario] WHERE idUsuario=@idUsuario AND idFuncion = @idFuncion";
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.Int));
+                command.Parameters["@idUsuario"].Value = idUsuario;
+                command.Parameters["@idFuncion"].Value = idFuncion;
+                try
+                {
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+            }
+        }
+
+        public int modificarFuncionUsuario(int idUsuario, int idFuncion, int cantEntradas)
+        {
+            string queryString = "UPDATE [dbo].[funcionUsuario] SET [cantEntradas] = @cantEntradas WHERE idUsuario = @idUsuario and idFuncion = @idFuncion";
+
+            using (SqlConnection connection =
+                new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.Add(new SqlParameter("@idUsuario", SqlDbType.Int));
+                command.Parameters.Add(new SqlParameter("@idFuncion", SqlDbType.NVarChar));
+                command.Parameters.Add(new SqlParameter("@cantEntradas", SqlDbType.Int));
+                command.Parameters["@idUsuario"].Value = idUsuario;
+                command.Parameters["@idFuncion"].Value = idFuncion;
+                command.Parameters["@cantEntradas"].Value = cantEntradas;
+                try
+                {
+                    connection.Open();
+                    //esta consulta NO espera un resultado para leer, es del tipo NON Query
+                    return command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return 0;
+                }
+
+
             }
         }
     }

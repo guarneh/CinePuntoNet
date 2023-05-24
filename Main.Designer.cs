@@ -58,6 +58,8 @@
             btnMainToUsuario = new Button();
             button4 = new Button();
             textBox1 = new TextBox();
+            label11 = new Label();
+            label12 = new Label();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -102,6 +104,8 @@
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(label12);
+            tabPage2.Controls.Add(label11);
             tabPage2.Controls.Add(label10);
             tabPage2.Controls.Add(comboBox1);
             tabPage2.Controls.Add(label9);
@@ -332,6 +336,24 @@
             textBox1.Size = new Size(100, 23);
             textBox1.TabIndex = 11;
             // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(540, 10);
+            label11.Name = "label11";
+            label11.Size = new Size(60, 15);
+            label11.TabIndex = 16;
+            label11.Text = "idFuncion";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(658, 10);
+            label12.Name = "label12";
+            label12.Size = new Size(27, 15);
+            label12.TabIndex = 17;
+            label12.Text = "----";
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -393,5 +415,7 @@
         private Label label9;
         private Label label10;
         private ComboBox comboBox1;
+        private Label label12;
+        private Label label11;
     }
 }

@@ -31,7 +31,7 @@ namespace Cinemania
             cinema = cine;
             label2.Text = cine.usuarioLogueado().Nombre;
             label4.Text = cine.usuarioCredito().ToString();
-            selectedUser = -1;
+            selectedUser = cinema.usuarioLogueado().id;
             if (cine.esAdmin())
             {
                 button3.Visible = true;
@@ -124,6 +124,7 @@ namespace Cinemania
 
             textBox2.Text = sala;
             textBox3.Text = pelicula;
+            label12.Text = ID;
             selectedFuncion = int.Parse(ID);
 
             actualizarDatosMisFunciones();
@@ -148,6 +149,7 @@ namespace Cinemania
 
         private void button6_Click(object sender, EventArgs e)
         {
+            selectedUser = cinema.usuarioLogueado().id;
             string cantEntradas = textBox5.Text;
             int entradas = int.Parse(cantEntradas);
 
