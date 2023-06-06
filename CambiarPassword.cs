@@ -30,6 +30,7 @@ namespace Cinemania
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             if (cinema.cambiarPassword(textBox1.Text, textBox2.Text))
             {
                 MessageBox.Show("la contraseña ha sido cambiada con exito");

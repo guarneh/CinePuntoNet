@@ -17,10 +17,10 @@ namespace Cinemania
             //connectionString = "Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
 
             //conexion laptop
-            //connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            connectionString = "Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
 
             //conexion pc Casa
-            connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
+            //connectionString = "Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNet;Integrated Security=True";
         }
 
         //***************************************************************************

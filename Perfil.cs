@@ -610,6 +610,7 @@ namespace Cinemania
 
         private void actualizarDatosMisFunciones()
         {
+            dataGridView3.Rows.Clear();
 
             foreach (Usuario user in cine.obtenerUsuarios())
             {

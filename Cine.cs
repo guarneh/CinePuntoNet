@@ -409,82 +409,15 @@ namespace Cinemania
                   return false;
                 }
             }
-            else
-            {
-                
-                Funcion miFuncion = new Funcion(cantFunciones, idSala, idPelicula, fecha, 0, costo);
-                miFuncion.miPelicula = miPelicula;
-                miFuncion.miSala = miSala;
-                miPelicula.misFunciones.Add(miFuncion);
-                miSala.misFunciones.Add(miFuncion);
-                funciones.Add(miFuncion);
-                cantFunciones++;
-                return true;
 
-                        }
-
-                    } 
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-            }
             return false;
+            
+
+                    
 
         }
 
-        public bool eliminarFuncion(int id)
-        {
-            if (db.eliminarFuncion(id) == 1)
-            {  
-                try
-                    {
-                        Funcion miFuncion = null;
-
-                        foreach (Funcion f in funciones)
-                        {
-                            if (f.ID == id)
-                            {
-                                miFuncion = f;
-                                break;
-                            }
-                        }
-
-                        Sala miSala = null;
-                        foreach (Sala s in salas)
-                        {
-                            if (s.id == miFuncion.miSala.id)
-                            {
-                                miSala = s;
-                                miSala.misFunciones.Remove(miFuncion);
-                            }
-                        }
-
-                        Pelicula miPelicula = null;
-                        foreach (Pelicula p in peliculas)
-                        {
-                            if (p.id == miFuncion.miPelicula.id)
-                            {
-                                miPelicula = p;
-                                miPelicula.misFunciones.Remove(miFuncion);
-
-                            }
-                        }
-
-                        funciones.Remove(miFuncion);
-
-                        return true;
-                    }
-                    catch (Exception) 
-                    {
-                        return false;
-                    }
-=========
-                catch (Exception ex) { return false; }
->>>>>>>>> Temporary merge branch 2
-            }
-            return false;
-        }
+        
 
                 public bool iniciarSesion(string usuario, string pass)
                 {
@@ -682,15 +615,22 @@ namespace Cinemania
 
                 public bool comprarCredito(double credito)
                 {
-                    if (credito > 0)
+                    double nuevoCredito;
+                    nuevoCredito = usuarioActual.Credito + credito;
+                    if (db.modificarUsuario(usuarioActual.id,usuarioActual.DNI,usuarioActual.Nombre,usuarioActual.Apellido,usuarioActual.Mail,usuarioActual.Password,usuarioActual.IntentosFallidos,usuarioActual.Bloqueado,nuevoCredito,usuarioActual.FechaNacimiento,usuarioActual.EsAdmin) == 1)
                     {
-                        usuarioActual.Credito += credito;
-                        return true;
+                        if (credito > 0)
+                        {
+                                    usuarioActual.Credito = nuevoCredito;
+                                    return true;
+                        }
+                        else
+                        {
+                                    return false;
+                        }
+                
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
 
@@ -811,15 +751,22 @@ namespace Cinemania
                 {
                     if (usuarioLogueado().Password.Equals(passwordActual))
                     {
+                        if (db.modificarUsuario(usuarioActual.id,usuarioActual.DNI,usuarioActual.Nombre,usuarioActual.Apellido,usuarioActual.Mail,passwordNueva,usuarioActual.IntentosFallidos,usuarioActual.Bloqueado,usuarioActual.Credito,usuarioActual.FechaNacimiento,usuarioActual.EsAdmin) == 1)
+                        {
                         usuarioLogueado().Password = passwordNueva;
-                        return true;
+                                return true;
+                    
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
-                    else
-                    {
+                    
                         return false;
-                    }
                 }
 
     }
 }
+
 
