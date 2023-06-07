@@ -16,9 +16,11 @@ namespace Cinemania
 
         public string poster { get; set; }
 
-        public List<Funcion> misFunciones { get; set; }
+        public List<Funcion> misFunciones { get; set; } = new List<Funcion>();
 
         public int duracion { get; set; }
+
+        public Pelicula() { }
 
         public Pelicula(int id, string nombre, string sinopsis, string poster, int duracion)
         {
@@ -26,8 +28,6 @@ namespace Cinemania
             this.nombre = nombre;
             this.sinopsis = sinopsis;
             this.poster = poster;
-            this.misFunciones = new List<Funcion>();
-          
             this.duracion = duracion;
         }
 

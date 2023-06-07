@@ -17,10 +17,14 @@ namespace Cinemania
         public string Password { get; set; }
         public int IntentosFallidos { get; set; }
         public bool Bloqueado { get; set; }
-        public List<Funcion> MisFunciones { get; set; }
+        public ICollection<Funcion> MisFunciones { get; set; } = new List<Funcion>();
         public double Credito { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public bool EsAdmin { get; set; }
+
+        public List<FuncionUsuario> Tickets { get; set; }
+
+        public Usuario() { }
 
         public Usuario(int id, int dni, string nombre, string apellido, string mail, string password, int intentos, bool bloqueo, double credit, DateTime fechaNacimiento,bool esAdmin )
         {
@@ -35,7 +39,7 @@ namespace Cinemania
             this.IntentosFallidos = intentos;
             this.Bloqueado = bloqueo;
             this.Credito = credit;
-            this.MisFunciones = new List<Funcion>();
+            
         }   
 
         public string[] ToString()

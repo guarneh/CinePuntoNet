@@ -9,7 +9,11 @@ namespace Cinemania
     internal class FuncionUsuario
     {
         public int idUsuario;
+        public Usuario usuario { get; set; }
+
         public int idFuncion;
+        public Funcion funcion { get; set; }
+
         public int cantEntradas;
 
         public FuncionUsuario(int idUsuario, int idFuncion, int cantEntradas)

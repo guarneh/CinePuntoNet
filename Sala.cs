@@ -15,14 +15,16 @@ namespace Cinemania
 
         public int capacidad { get; set; }
 
-        public List<Funcion> misFunciones { get; set; }
+        public List<Funcion> misFunciones { get; set; } = new List<Funcion>();
+
+        public Sala() { }
 
         public Sala(int id, string ubicacion, int capacidad) { 
 
             this.id = id;
             this.ubicacion = ubicacion;
             this.capacidad = capacidad;
-            this.misFunciones = new List<Funcion>();
+            
         
         }
 
