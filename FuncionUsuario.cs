@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cinemania
 {
-    internal class FuncionUsuario
+    public class FuncionUsuario
     {
         public int idUsuario;
         public Usuario usuario { get; set; }
@@ -16,6 +16,7 @@ namespace Cinemania
 
         public int cantEntradas;
 
+        public FuncionUsuario() { }
         public FuncionUsuario(int idUsuario, int idFuncion, int cantEntradas)
         { 
             this.idUsuario = idUsuario;

@@ -25,7 +25,7 @@ namespace Cinemania
 
         public double costo { get; set; }
 
-        public List<FuncionUsuario> funcionUsuarios { get; set; }
+        public List<FuncionUsuario> funcionUsuarios { get; set; } = new List<FuncionUsuario>();
 
         public Funcion() { }
 
