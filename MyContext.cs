@@ -14,7 +14,7 @@ namespace Cinemania
 
         public DbSet<Pelicula> peliculas { get; set; }
 
-        public DbSet<Sala> sala { get; set; }
+        public DbSet<Sala> salas { get; set; }
 
         public DbSet<Funcion> funciones { get; set; } 
 
@@ -24,12 +24,7 @@ namespace Cinemania
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //Conexion Casa
-            //optionsBuilder.UseSqlServer("Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
-            //conexion Notebook
-            optionsBuilder.UseSqlServer("Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
-
-
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -90,18 +85,7 @@ namespace Cinemania
                     usr.Property(u => u.IntentosFallidos).HasColumnType("int");
                     usr.Property(u => u.Bloqueado).HasColumnType("bit");
                     usr.Property(u => u.EsAdmin).HasColumnType("bit");
-                });
-
-            
-            modelBuilder.Entity<Pelicula>().HasData(
-                new { id = 1,nombre="Mario 1",sinopsis="una re peli",poster="peaches peaches",duracion=120},
-                new { id = 2, nombre = "Barbie", sinopsis = "amo a ken", poster = "Ryan Gosling", duracion = 230}
-                );
-            modelBuilder.Entity<Sala>().HasData(
-                new { id=1,ubicacion="sala 1",capacidad = 35},
-                new { id = 2, ubicacion = "sala 2", capacidad = 35}
-                );
-         
+                });  
 
             //Ignoro todo esto
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,80 +11,30 @@ namespace Cinemania
 {
     public class Cine
     {
-        private List<Usuario> usuarios;
-        private List<Funcion> funciones;
-        private List<Sala> salas;
-        private List<Pelicula> peliculas;
-        private List<FuncionUsuario> funcionUsuarios;
-        private Usuario usuarioActual;
+        
+        private int usuarioActual;
 
-        private int cantPeliculas;
-        private int cantSalas;
-        private int cantFunciones;
-        private DAL db;
+        private MyContext context;
         public Cine()
-        {
-            db = new DAL();
-            peliculas = new List<Pelicula>();
-            funciones = new List<Funcion>();
-            salas = new List<Sala>();
-            usuarios = new List<Usuario>();
-            funcionUsuarios = new List<FuncionUsuario>();
+        {          
             inicializarAtributos();
-           
-
-
-
         }
 
         public void inicializarAtributos()
         {
-            peliculas = db.inicializarPeliculas();
-            salas = db.inicializarSalas();
-            usuarios = db.inicializarUsuarios();
-            funciones = db.inicializarFunciones();
-            funcionUsuarios = db.inicializarFuncionUsuario();
-
-            //relacion 
-
-            foreach (Funcion f in funciones)
+            try
             {
-                foreach (Pelicula p in peliculas)
-                {
-                    Pelicula miPeli = null;
-                    if (f.idPelicula == p.id)
-                    {
-                        miPeli = p;
-                        p.misFunciones.Add(f);
-                        f.miPelicula = miPeli;
-                    }
-                }
-                foreach (Sala s in salas)
-                {
-                    Sala miSala = null;
-                    if (f.idSala == s.id)
-                    {
-                        miSala = s;
-                        s.misFunciones.Add(f);
-                        f.miSala = miSala;
-                    }
-                }
+                context = new MyContext();
+
+                context.usuarios.Include(u => u.MisFunciones).Load();
+                context.funciones.Include(f => f.clientes).Load();
+                context.peliculas.Include(p => p.misFunciones).Load();
+                context.salas.Include(s => s.misFunciones).Load();
+                context.funcionUsuarios.Load();
             }
-
-
-            foreach (FuncionUsuario fu in funcionUsuarios)
+            catch (Exception e)
             {
-                foreach (Funcion f in funciones)
-                {
-                    foreach (Usuario u in usuarios)
-                    {
-                        if (fu.idUsuario == u.id && fu.idFuncion == f.ID)
-                        {
-                            u.MisFunciones.Add(f);
-                            f.clientes.Add(u);
-                        }
-                    }
-                }
+                Console.WriteLine(e.Message);
             }
         }
 
