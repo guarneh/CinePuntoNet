@@ -24,7 +24,7 @@ namespace Cinemania
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=true");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-NH6VC1C\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
