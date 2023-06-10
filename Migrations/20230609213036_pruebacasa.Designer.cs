@@ -4,6 +4,7 @@ using Cinemania;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cinemania.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20230609213036_pruebacasa")]
+    partial class pruebacasa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,24 +98,6 @@ namespace Cinemania.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Peliculas", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            duracion = 120,
-                            nombre = "Mario 1",
-                            poster = "peaches peaches",
-                            sinopsis = "una re peli"
-                        },
-                        new
-                        {
-                            id = 2,
-                            duracion = 230,
-                            nombre = "Barbie",
-                            poster = "Ryan Gosling",
-                            sinopsis = "amo a ken"
-                        });
                 });
 
             modelBuilder.Entity("Cinemania.Sala", b =>
@@ -133,20 +118,6 @@ namespace Cinemania.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Salas", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            id = 1,
-                            capacidad = 35,
-                            ubicacion = "sala 1"
-                        },
-                        new
-                        {
-                            id = 2,
-                            capacidad = 35,
-                            ubicacion = "sala 2"
-                        });
                 });
 
             modelBuilder.Entity("Cinemania.Usuario", b =>
