@@ -11,8 +11,8 @@ namespace Cinemania
 {
     public class Cine
     {
-        
-        private int usuarioActual;
+
+        private Usuario usuarioActual;
 
         private MyContext context;
         public Cine()
@@ -40,82 +40,45 @@ namespace Cinemania
 
 
         //Inicia ABM de Usuarios
-        public bool esAdmin()
+        
+        public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento)
         {
-            if (usuarioActual.EsAdmin)
+            try 
             {
+                Usuario nuevo = new Usuario { DNI = dni, Nombre = nombre, Apellido = apellido, Mail = mail, Password = password, FechaNacimiento = fechaNacimiento, EsAdmin = false, IntentosFallidos = 0, Bloqueado = false, Credito = 0};
+                context.usuarios.Add(nuevo);
+                context.SaveChanges();
                 return true;
             }
-            else
-                return false;
-        }
-        public bool agregarUsuario(int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento, bool esAdmin, int intentos, bool bloqueo, double credit)
-        {
-            bool esValido = true;
-            foreach (Usuario u in usuarios)
+            catch (Exception)
             {
-                if (u.DNI == dni)
-                    esValido = false;
-            }
-            if (esValido)
-            {
-                int idNuevoUsuario;
-                idNuevoUsuario = db.agregarUsuario(dni, nombre, apellido, mail, password, intentos, bloqueo, credit, fechaNacimiento, esAdmin);
-
-                if (idNuevoUsuario != -1)
-                {
-                    //Ahora sí lo agrego en la lista
-                    Usuario nuevo = new Usuario(idNuevoUsuario, dni, nombre, apellido, mail, password, intentos, bloqueo, credit, fechaNacimiento, esAdmin);
-                    usuarios.Add(nuevo);
-                    return true;
-                }
-                else
-                {
-                    //algo salió mal con la query porque no generó un id válido
-                    return false;
-                }
-            }
-            else
                 return false;
+            }
         }
 
 
         public bool modificarUsuario(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaN, bool esAdm, int intFallidos, bool bloqueado, double credito)
         {
-
-            if (db.modificarUsuario(id, dni, nombre, apellido, mail, password, intFallidos, bloqueado, credito, fechaN, esAdm) == 1)
+            Usuario usr = context.usuarios.Where(u => u.id == id).FirstOrDefault();
+            if (usr != null)
             {
-                try
-                {
-                    //Ahora sí lo MODIFICO en la lista
-                    foreach (Usuario u in usuarios)
-                    {
-                        if (u.id == id)
-                        {
-                            u.DNI = dni;
-                            u.Nombre = nombre;
-                            u.Apellido = apellido;
-                            u.Mail = mail;
-                            u.Password = password;
-                            u.FechaNacimiento = fechaN;
-                            u.EsAdmin = esAdm;
-                            u.IntentosFallidos = intFallidos;
-                            u.Bloqueado = bloqueado;
-                            u.Credito = credito;
-                        }
-                    }
-                    return true;
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
+                usr.DNI = dni;
+                usr.Nombre = nombre;
+                usr.Apellido = apellido;
+                usr.Mail = mail;
+                usr.Password = password;
+                usr.FechaNacimiento = fechaN;
+                usr.EsAdmin = esAdm;
+                usr.IntentosFallidos = intFallidos;
+                usr.Bloqueado = bloqueado;
+                usr.Credito = credito;
+                context.usuarios.Update(usr);
+                context.SaveChanges();
+                return true;
             }
             else
-            {
-                //algo salió mal con la query porque no generó 1 registro
                 return false;
-            }
+            
         }
 
         public bool modificarMisDatos(int id, int dni, string nombre, string apellido, string mail, string password, DateTime fechaNacimiento)
@@ -130,35 +93,30 @@ namespace Cinemania
                 usuarioActual.Apellido = apellido;
                 usuarioActual.Mail = mail;
                 usuarioActual.FechaNacimiento = fechaNacimiento;
+                context.usuarios.Update(usuarioActual);
+                context.SaveChanges();
                 return true;
             }
-
-            return false;
+            else
+                return false;
         }
 
         public bool eliminarUsuario(int id)
         {
-            if (db.eliminarUsuario(id) == 1)
-            {
-                try
+            try
+            { 
+                Usuario usr = context.usuarios.Where(u => u.id == id).FirstOrDefault();
+                if (usr != null) 
                 {
-                    //Ahora sí lo elimino en la lista
-                    foreach (Usuario u in usuarios)
-                        if (u.id == id)
-                        {
-                            usuarios.Remove(u);
-                            return true;
-                        }
-                    return false;
+                    context.usuarios.Remove(usr);
+                    context.SaveChanges();
+                    return true;
                 }
-                catch (Exception)
-                {
+                else
                     return false;
-                }
             }
-            else
+            catch (Exception)
             {
-                //algo salió mal con la query porque no generó 1 registro
                 return false;
             }
         }
@@ -167,15 +125,14 @@ namespace Cinemania
 
         public bool agregarPelicula(string nombre, string sinop, string poster, int duracion)
         {
-            int idNuevaPelicula;
-            idNuevaPelicula = db.agregarPelicula(nombre, sinop, poster, duracion);
-
-            if (idNuevaPelicula != -1)
+            try
             {
-                peliculas.Add(new Pelicula(idNuevaPelicula, nombre, sinop, poster, duracion));
+                Pelicula nuevo = new Pelicula { Nombre=nombre,Sinopsis=sinop,Poster = poster, Duracion=duracion};
+                context.peliculas.Add(nuevo);
+                context.SaveChanges();
                 return true;
             }
-            else
+            catch (Exception)
             {
                 return false;
             }
@@ -184,80 +141,39 @@ namespace Cinemania
 
         public bool modificarPelicula(int id, string nombre, string sinop, string poster, int duracion)
         {
-            if (db.modificarPelicula(id, nombre, sinop, poster, duracion) == 1)
+            Pelicula peli = context.peliculas.Where(p => p.id == id).FirstOrDefault();
+            if (peli != null)
             {
-                try
-                {
-
-                    foreach (Pelicula peli in peliculas)
-                    {
-                        if (peli.id == id)
-                        {
-                            peli.nombre = nombre;
-                            peli.sinopsis = sinop;
-                            peli.poster = poster;
-                            peli.duracion = duracion;
-                            return true;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
-
+                peli.Nombre = nombre;
+                peli.Sinopsis = sinop;
+                peli.Poster = poster;
+                peli.Duracion = duracion;
+                context.peliculas.Update(peli);
+                context.SaveChanges();
+                return true;
             }
             else
-            {
                 return false;
-            }
-            return false;
 
         }
         public bool eliminarPelicula(int id)
         {
-
-            if (db.eliminarPelicula(id) == 1)
+            try
             {
-                try
+                Pelicula peli = context.peliculas.Where(p => p.id == id).FirstOrDefault();
+                if (peli != null)
                 {
-                    Pelicula miPeli = null;
-                    foreach (Pelicula p in peliculas)
-                    {
-                        if (p.id == id)
-                        {
-                            miPeli = p;
-
-                            Funcion miFuncion = null;
-                            foreach (Funcion f in funciones)
-                            {
-                                if (f.miPelicula.id == miPeli.id)
-                                {
-                                    miFuncion = f;
-                                }
-                            }
-                            if (miFuncion != null)
-                            {
-                                eliminarFuncion(miFuncion.ID);
-                            }
-                            peliculas.Remove(p);
-
-                            return true;
-                        }
-                    }
-
+                    context.peliculas.Remove(peli);
+                    context.SaveChanges();
+                    return true;
                 }
-                catch (Exception ex)
-                {
+                else
                     return false;
-                }
             }
-            else
+            catch (Exception)
             {
                 return false;
             }
-
-            return false;
         }
 
 
@@ -413,7 +329,7 @@ namespace Cinemania
                 }
 
 
-                public Usuario usuarioLogueado()
+                public int usuarioLogueado()
                 {
 
                     return usuarioActual;

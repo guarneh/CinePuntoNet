@@ -26,9 +26,9 @@ namespace Cinemania
 
         public Usuario() { }
 
-        public Usuario(int id, int dni, string nombre, string apellido, string mail, string password, int intentos, bool bloqueo, double credit, DateTime fechaNacimiento,bool esAdmin )
+        public Usuario( int dni, string nombre, string apellido, string mail, string password, int intentos, bool bloqueo, double credit, DateTime fechaNacimiento,bool esAdmin )
         {
-            this.id = id;
+            
             DNI = dni;
             this.Nombre = nombre;
             this.Apellido = apellido;
