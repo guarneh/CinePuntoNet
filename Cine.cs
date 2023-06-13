@@ -254,21 +254,21 @@ namespace Cinemania
                         return false;
                     }
                     else
-                    { 
+                    {
                         context.usuarios.Update(usr);
                         context.SaveChanges();
                         return false;
                     }
 
-                        
+
                 }
             }
             else
             {
                 MessageBox.Show("no se encontro usuario");
-                return false; 
+                return false;
             }
-            
+
 
 
         }
@@ -331,7 +331,7 @@ namespace Cinemania
             Sala miSala = context.salas.Where(s => s.id == idSala).FirstOrDefault();
             if (miPeli != null && miSala != null)
             {
-                Funcion funcion = new Funcion { idSala = idSala, idPelicula = idPelicula, miSala = miSala, miPelicula = miPeli,fecha=fecha,cantClientes=0,costo=costo };
+                Funcion funcion = new Funcion { idSala = idSala, idPelicula = idPelicula, miSala = miSala, miPelicula = miPeli, fecha = fecha, cantClientes = 0, costo = costo };
                 miPeli.misFunciones.Add(funcion);
                 miSala.misFunciones.Add(funcion);
                 context.funciones.Add(funcion);
@@ -392,35 +392,35 @@ namespace Cinemania
         }
 
 
-        /* public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
+         public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
          {
 
-
+            return false;
          }  
-        */
+        
 
         public void cerrar()
         {
             context.Dispose();
         }
-    }
-    /*
+
+
         public bool modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo)
         {
 
-            return true;
+            return false;
         }
-    */
 
 
 
-    /*
-    public bool cambiarPassword(string passwordActual, string passwordNueva)
-    {
-       
+
+
+        public bool cambiarPassword(string passwordActual, string passwordNueva)
+        {
+            return false;
+        }
+
     }
-    */
-
     
 
 }
