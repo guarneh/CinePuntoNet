@@ -32,16 +32,12 @@ namespace Cinemania
             DateTime fechaNacimiento = dateTimePicker1.Value;
             
             
-            textBox1.Clear();
-            textBox2.Clear();
-            textBox3.Clear();
-            textBox4.Clear();
-            textBox5.Clear();
+            
 
-            if (dni != null && nombre != null && nombre != "" && apellido != null && apellido != "" && mail != null && mail != "" && pass != null && pass != "" && fechaNacimiento != null)
-            {
+           // if (dni != null && nombre != null && nombre != "" && apellido != null && apellido != "" && mail != null && mail != "" && pass != null && pass != "" && fechaNacimiento != null)
+            //{
 
-                if (miCine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento,false,0,false,0))
+                if (miCine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento))
                 {
                     MessageBox.Show("Registrado con éxito");
                     this.registerToLogin();
@@ -50,9 +46,9 @@ namespace Cinemania
                 {
                     MessageBox.Show("Error, usuario o contraseña incorrectos");
                 }
-            }
-            else
-                MessageBox.Show("Debe ingresar un usuario y contraseña!");
+           // }
+           // else
+               // MessageBox.Show("Debe ingresar un usuario y contraseña!");
         }
 
         private void btnToLogin_Click(object sender, EventArgs e)

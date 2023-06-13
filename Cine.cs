@@ -231,7 +231,44 @@ namespace Cinemania
 
         public bool iniciarSesion(string usuario, string pass)
         {
+            Usuario usr = context.usuarios.Where(u => u.Mail.Equals(usuario)).FirstOrDefault();
+            if (usr != null)
+            {
+                if (usr.Password.Equals(pass))
+                {
+                    usr.IntentosFallidos = 0;
+                    context.usuarios.Update(usr);
+                    context.SaveChanges();
+                    usuarioActual = usr;
+                    return true;
+                }
+                else
+                {
+                    usr.IntentosFallidos++;
+                    if (usr.IntentosFallidos >= 3)
+                    {
+                        usr.Bloqueado = true;
+                        MessageBox.Show("Usuario Bloqueado");
+                        context.usuarios.Update(usr);
+                        context.SaveChanges();
+                        return false;
+                    }
+                    else
+                    { 
+                        context.usuarios.Update(usr);
+                        context.SaveChanges();
+                        return false;
+                    }
 
+                        
+                }
+            }
+            else
+            {
+                MessageBox.Show("no se encontro usuario");
+                return false; 
+            }
+            
 
 
         }
@@ -247,6 +284,16 @@ namespace Cinemania
 
             return usuarioActual;
 
+        }
+
+        public bool UsuarioAdministrador()
+        {
+            if (usuarioActual.EsAdmin)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         public double usuarioCredito()
@@ -345,55 +392,17 @@ namespace Cinemania
         }
 
 
-        public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
+        /* public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
+         {
+
+
+         }  
+        */
+
+        public void cerrar()
         {
-
-
-            usuarioActual.id = idUsuario;
-            Funcion miFuncion = null;
-            Sala miSala = null;
-
-
-            foreach (Funcion f in funciones)
-            {
-                if (idFuncion == f.ID)
-                {
-                    miFuncion = f;
-
-                    break;
-                }
-            }
-
-            foreach (Sala s in salas)
-            {
-                if (miFuncion.miSala.id == s.id)
-                {
-                    miSala = s;
-                }
-
-            }
-
-
-            double totEntradas = miFuncion.costo * cantClientes;
-
-
-            if (usuarioActual.Credito >= miFuncion.costo && usuarioActual.Credito >= totEntradas && miFuncion.cantClientes <= miSala.capacidad)
-            {
-                miFuncion.cantClientes += cantClientes;
-                db.modificarFuncion(miFuncion.ID, miFuncion.idSala, miFuncion.idPelicula, miFuncion.fecha, miFuncion.cantClientes, miFuncion.costo);
-                usuarioActual.Credito -= miFuncion.costo * cantClientes;
-                usuarioActual.MisFunciones.Add(miFuncion);
-                miSala.capacidad -= cantClientes;
-
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            context.Dispose();
         }
-
-
     }
     /*
         public bool modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo)
@@ -402,15 +411,17 @@ namespace Cinemania
             return true;
         }
     */
-        
 
-    
+
+
     /*
     public bool cambiarPassword(string passwordActual, string passwordNueva)
     {
        
     }
     */
+
+    
 
 }
 

@@ -25,15 +25,15 @@ namespace Cinemania
         public Pelicula(string nombre, string sinopsis, string poster, int duracion)
         {
             
-            this.nombre = nombre;
-            this.sinopsis = sinopsis;
-            this.poster = poster;
-            this.duracion = duracion;
+            this.Nombre = nombre;
+            this.Sinopsis = sinopsis;
+            this.Poster = poster;
+            this.Duracion = duracion;
         }
 
         public string[] ToString()
         {
-            return new string[] { id.ToString(), nombre, sinopsis, poster, duracion.ToString()};
+            return new string[] { id.ToString(), Nombre, Sinopsis, Poster, Duracion.ToString()};
         }
     }
 }

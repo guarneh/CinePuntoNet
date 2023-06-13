@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+            cinema.cerrar();
             base.Dispose(disposing);
         }
 

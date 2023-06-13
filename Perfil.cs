@@ -245,7 +245,7 @@ namespace Cinemania
 
             else
 
-                if (cine.agregarUsuario(dni, nombre, apellido, mail, pass, fechaNacimiento, esAdmin, intentos, bloqueo, credito))
+                if (cine.agregarUsuario(dni,nombre,apellido,mail,pass,fechaNacimiento))
                 MessageBox.Show("Agregado con éxito");
             else
                 MessageBox.Show("Problemas al agregar");

@@ -32,7 +32,7 @@ namespace Cinemania
             label2.Text = cine.usuarioLogueado().Nombre;
             label4.Text = cine.usuarioCredito().ToString();
             selectedUser = cinema.usuarioLogueado().id;
-            if (cine.esAdmin())
+            if (cine.UsuarioAdministrador())
             {
                 button3.Visible = true;
                 btnMainToUsuario.Visible = false;
@@ -47,7 +47,7 @@ namespace Cinemania
 
             foreach (Pelicula p in cinema.obtenerPeliculas())
             {
-                comboBox1.Items.Add(p.nombre);
+                comboBox1.Items.Add(p.Nombre);
             }
 
         }
@@ -179,7 +179,7 @@ namespace Cinemania
             dataGridView2.Rows.Clear();
             foreach (Funcion f in cinema.obtenerFunciones())
             {
-                if (f.miPelicula.nombre.Equals(comboBox1.Text))
+                if (f.miPelicula.Nombre.Equals(comboBox1.Text))
                 {
                     dataGridView2.Rows.Add(f.ToString());
                 }
