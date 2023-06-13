@@ -381,6 +381,8 @@ namespace Cinemania
             if (credito > 0)
             {
                 usuarioActual.Credito = nuevoCredito;
+                context.usuarios.Update(usuarioActual);
+                context.SaveChanges();
                 return true;
             }
             else
@@ -394,9 +396,34 @@ namespace Cinemania
 
          public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
          {
+            
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+            Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
+            if (usr != null && func != null)
+            {
+                
+                if (usr.Credito >= func.costo*cantClientes)
+                {
+                    FuncionUsuario fuSelected = new FuncionUsuario { idUsuario=idUsuario,idFuncion=idFuncion,cantEntradas=cantClientes};
+                    usr.MisFunciones.Add(func);
+                    usr.Credito = usr.Credito - func.costo*cantClientes;
+                    
+                    fuSelected.cantEntradas = cantClientes;
+                    context.funcionUsuarios.Update(fuSelected);
+                    context.usuarios.Update(usr);
+                    func.clientes.Add(usr);
+                    context.funciones.Update(func);
+                    context.SaveChanges();
+                    return true;
 
-            return false;
-         }  
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+
+        }  
         
 
         public void cerrar()
