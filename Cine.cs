@@ -232,7 +232,7 @@ namespace Cinemania
         public bool iniciarSesion(string usuario, string pass)
         {
             Usuario usr = context.usuarios.Where(u => u.Mail.Equals(usuario)).FirstOrDefault();
-            if (usr != null)
+            if (usr != null && usr.Bloqueado == false)
             {
                 if (usr.Password.Equals(pass))
                 {
@@ -282,7 +282,7 @@ namespace Cinemania
         public Usuario usuarioLogueado()
         {
 
-            return usuarioActual;
+            return usuarioActual ;
 
         }
 
@@ -320,6 +320,18 @@ namespace Cinemania
         public List<Funcion> obtenerFunciones()
         {
             return context.funciones.ToList();
+        }
+
+        public Funcion BuscarFuncion(int id)
+        { 
+            Funcion func = context.funciones.Where(f => f.ID == id).FirstOrDefault();
+                       
+                return func;
+        }
+        public FuncionUsuario BuscarFuncionUsuario(int idUsuario, int idFuncion)
+        { 
+            FuncionUsuario fuFinded = context.funcionUsuarios.Where(fu => fu.idUsuario == idUsuario && fu.idFuncion == idFuncion).FirstOrDefault();
+            return fuFinded;
         }
 
 
@@ -401,27 +413,72 @@ namespace Cinemania
             Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
             if (usr != null && func != null)
             {
-                
-                if (usr.Credito >= func.costo*cantClientes)
+                if (func.cantClientes + cantClientes <= func.miSala.capacidad)
                 {
-                    FuncionUsuario fuSelected = new FuncionUsuario { idUsuario=idUsuario,idFuncion=idFuncion,cantEntradas=cantClientes};
-                    context.funcionUsuarios.Add(fuSelected);
-                    usr.MisFunciones.Add(func);
-                    usr.Credito = usr.Credito - func.costo*cantClientes;
-                    context.usuarios.Update(usr);
-                    func.clientes.Add(usr);
-                    context.funciones.Update(func);
-                    context.SaveChanges();
-                    return true;
+                    if (usr.Credito >= func.costo * cantClientes)
+                    {
+                        
+                        usr.MisFunciones.Add(func);
+                        usr.Credito = usr.Credito - func.costo * cantClientes;
+                        if (usr.Tickets.Last<FuncionUsuario>().cantEntradas > 0)
+                        {
+                            usr.Tickets.Last<FuncionUsuario>().cantEntradas = usr.Tickets.Last<FuncionUsuario>().cantEntradas + cantClientes;
+                        }
+                        else
+                        {
+                        usr.Tickets.Last<FuncionUsuario>().cantEntradas = cantClientes;
+                        }
+                        context.usuarios.Update(usr);
+                        func.clientes.Add(usr);
+                        context.funciones.Update(func);
+                        context.SaveChanges();
+                        return true;
 
+                    }
+                    else
+                        return false;
                 }
-                else
+                else 
                     return false;
             }
             else
                 return false;
 
-        }  
+         }
+
+        public bool devolverEntrada(int idFuncion, int cantEntradas)
+        {
+            Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
+            FuncionUsuario fuSelected = context.funcionUsuarios.Where(fu => fu.usuario == usuarioActual && fu.funcion == func).FirstOrDefault();
+            if (func != null)
+            {
+                if (fuSelected.cantEntradas >= cantEntradas)
+                {
+                    usuarioActual.Credito += func.costo * cantEntradas;
+                    fuSelected.cantEntradas -= cantEntradas;
+                    if (fuSelected.cantEntradas == 0)
+                    {
+                        usuarioActual.Tickets.Remove(fuSelected);
+                        func.funcionUsuarios.Remove(fuSelected);
+                        func.clientes.Remove(usuarioActual);
+                        context.funcionUsuarios.Remove(fuSelected);  
+                        context.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {  
+                    context.usuarios.Update(usuarioActual);
+                    context.funcionUsuarios.Update(fuSelected);
+                    context.SaveChanges();
+                    return true;
+                    }
+                }
+                else
+                    return false;  
+            }
+            else
+                return false;
+        }
         
 
         public void cerrar()
@@ -442,8 +499,18 @@ namespace Cinemania
 
         public bool cambiarPassword(string passwordActual, string passwordNueva)
         {
+
+            if (usuarioActual.Password.Equals(passwordActual))
+            {
+                usuarioActual.Password = passwordNueva;
+                context.usuarios.Update(usuarioActual);
+                context.SaveChanges();
+                return true;
+            }
             return false;
         }
+
+
 
     }
     

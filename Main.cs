@@ -80,15 +80,8 @@ namespace Cinemania
         {
 
             string strNumero = textBox1.Text;
-            double credito;
-            if (Double.TryParse(strNumero, out credito))
-            {
-                // La conversión fue exitosa, el valor de "numero" contiene el resultado de la conversión.
-            }
-            else
-            {
-                // La conversión no fue exitosa, debes manejar esta situación en tu código.
-            }
+            double credito = double.Parse(strNumero);
+           
 
             if (cinema.comprarCredito(credito))
             {

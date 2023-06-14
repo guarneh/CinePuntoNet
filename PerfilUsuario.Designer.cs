@@ -38,6 +38,8 @@
             Column9 = new DataGridViewTextBoxColumn();
             Costo = new DataGridViewTextBoxColumn();
             tabPage3 = new TabPage();
+            idFuncionOculta = new Label();
+            label15 = new Label();
             label14 = new Label();
             label13 = new Label();
             label12 = new Label();
@@ -62,6 +64,8 @@
             label7 = new Label();
             label8 = new Label();
             btnCambiarPassword = new Button();
+            label16 = new Label();
+            textBox1 = new TextBox();
             tabControl1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
@@ -142,6 +146,10 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(textBox1);
+            tabPage3.Controls.Add(label16);
+            tabPage3.Controls.Add(idFuncionOculta);
+            tabPage3.Controls.Add(label15);
             tabPage3.Controls.Add(label14);
             tabPage3.Controls.Add(label13);
             tabPage3.Controls.Add(label12);
@@ -158,6 +166,25 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Proximas Funciones";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // idFuncionOculta
+            // 
+            idFuncionOculta.AutoSize = true;
+            idFuncionOculta.Location = new Point(84, 10);
+            idFuncionOculta.Name = "idFuncionOculta";
+            idFuncionOculta.Size = new Size(27, 15);
+            idFuncionOculta.TabIndex = 12;
+            idFuncionOculta.Text = "----";
+            idFuncionOculta.Visible = false;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new Point(417, 10);
+            label15.Name = "label15";
+            label15.Size = new Size(112, 15);
+            label15.TabIndex = 10;
+            label15.Text = "Cantida de Entradas";
             // 
             // label14
             // 
@@ -194,6 +221,7 @@
             button1.TabIndex = 5;
             button1.Text = "Devolver Entrada";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // label11
             // 
@@ -362,6 +390,22 @@
             btnCambiarPassword.UseVisualStyleBackColor = true;
             btnCambiarPassword.Click += btnCambiarPassword_Click;
             // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Location = new Point(535, 10);
+            label16.Name = "label16";
+            label16.Size = new Size(22, 15);
+            label16.TabIndex = 13;
+            label16.Text = "---";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(629, 6);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(39, 23);
+            textBox1.TabIndex = 14;
+            // 
             // PerfilUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -428,5 +472,9 @@
         private Label label14;
         private Label label13;
         private Label label12;
+        private Label label15;
+        private Label idFuncionOculta;
+        private Label label16;
+        private TextBox textBox1;
     }
 }
