@@ -75,14 +75,36 @@ namespace Cinemania
             label12.Text = pelicula;
             label13.Text = sala;
             label14.Text = fechaString;
+            idFuncionOculta.Text = idFuncion;
 
             selectedFuncion = int.Parse(idFuncion);
+
+            
+            
+            label16.Text = cinema.BuscarFuncionUsuario(cinema.usuarioLogueado().id, selectedFuncion).cantEntradas.ToString();
+            
+
 
         }
 
         private void btnCambiarPassword_Click(object sender, EventArgs e)
         {
             this.transfCambiarPassword();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            int cantEntradas = int.Parse(textBox1.Text);
+            int idFuncion = int.Parse(idFuncionOculta.Text);
+            if (cinema.devolverEntrada(idFuncion, cantEntradas))
+            {
+                MessageBox.Show("Entradas Devueltas");
+            }
+            else
+            {
+                MessageBox.Show("Error al Devolver");
+            }
+
         }
     }
 }
