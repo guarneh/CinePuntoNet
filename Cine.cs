@@ -405,11 +405,9 @@ namespace Cinemania
                 if (usr.Credito >= func.costo*cantClientes)
                 {
                     FuncionUsuario fuSelected = new FuncionUsuario { idUsuario=idUsuario,idFuncion=idFuncion,cantEntradas=cantClientes};
+                    context.funcionUsuarios.Add(fuSelected);
                     usr.MisFunciones.Add(func);
                     usr.Credito = usr.Credito - func.costo*cantClientes;
-                    
-                    fuSelected.cantEntradas = cantClientes;
-                    context.funcionUsuarios.Update(fuSelected);
                     context.usuarios.Update(usr);
                     func.clientes.Add(usr);
                     context.funciones.Update(func);
