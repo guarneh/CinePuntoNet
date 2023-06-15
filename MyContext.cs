@@ -29,7 +29,7 @@ namespace Cinemania
             //conexion Notebook
             //optionsBuilder.UseSqlServer("Data Source=LAPTOP-UR2EP742\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
             //conexion Laburo
-            //optionsBuilder.UseSqlServer("Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
+            optionsBuilder.UseSqlServer("Data Source=SISTEMAS01\\SQLEXPRESS;Initial Catalog=CineDotNetV2;Integrated Security=True ; Encrypt=false");
 
 
         }
