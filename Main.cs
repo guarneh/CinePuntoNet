@@ -29,9 +29,9 @@ namespace Cinemania
         {
             InitializeComponent();
             cinema = cine;
-            label2.Text = cine.usuarioLogueado().Nombre;
-            label4.Text = cine.usuarioCredito().ToString();
-            selectedUser = cinema.usuarioLogueado().id;
+            label2.Text = cine.devolverNombre(cine.usuarioLogueado());
+            label4.Text = cine.devolverCredito(cine.usuarioLogueado()).ToString();
+            selectedUser = cinema.usuarioLogueado();
             if (cine.UsuarioAdministrador())
             {
                 button3.Visible = true;
@@ -95,7 +95,7 @@ namespace Cinemania
             }
 
             textBox1.Clear();
-            string credit = cinema.usuarioCredito().ToString();
+            string credit = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
             label4.Text = credit;
 
 
@@ -142,7 +142,7 @@ namespace Cinemania
 
         private void button6_Click(object sender, EventArgs e)
         {
-            selectedUser = cinema.usuarioLogueado().id;
+            selectedUser = cinema.usuarioLogueado();
             string cantEntradas = textBox5.Text;
             int entradas = int.Parse(cantEntradas);
 
@@ -151,7 +151,7 @@ namespace Cinemania
                 if (cinema.comprarEntrada(selectedUser, selectedFuncion, entradas))
                 {
                     MessageBox.Show("compra exitosa");
-                    label4.Text = cinema.usuarioCredito().ToString();
+                    label4.Text = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
                 }
 
                 else

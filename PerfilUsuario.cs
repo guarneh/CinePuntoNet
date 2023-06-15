@@ -22,10 +22,10 @@ namespace Cinemania
         {
             InitializeComponent();
             cinema = cine;
-            label2.Text = cine.usuarioCredito().ToString();
-            label5.Text = cine.usuarioLogueado().DNI.ToString();
-            label7.Text = cine.usuarioLogueado().Mail;
-            label8.Text = cine.usuarioLogueado().Nombre + " " + cine.usuarioLogueado().Apellido;
+            label2.Text = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
+            label5.Text = cinema.devolverDni(cinema.usuarioLogueado()).ToString();
+            label7.Text = cinema.devolverMail(cinema.usuarioLogueado());
+            label8.Text = cinema.devolverNombre(cinema.usuarioLogueado());
         }
 
 
@@ -52,7 +52,7 @@ namespace Cinemania
         {
             dataGridView3.Rows.Clear();
 
-            foreach (Funcion f in cinema.usuarioLogueado().MisFunciones)
+            foreach (Funcion f in cinema.devolerMisFuncionesFuturas(cinema.usuarioLogueado()))
             {
                 //if (f.fecha.Date <= DateTime.Now)
                 //{
@@ -81,7 +81,7 @@ namespace Cinemania
 
             
             
-            label16.Text = cinema.BuscarFuncionUsuario(cinema.usuarioLogueado().id, selectedFuncion).cantEntradas.ToString();
+            label16.Text = cinema.BuscarFuncionUsuario(cinema.usuarioLogueado(), selectedFuncion).cantEntradas.ToString();
             
 
 

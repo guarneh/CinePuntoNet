@@ -295,10 +295,10 @@ namespace Cinemania
         }
 
 
-        public Usuario usuarioLogueado()
+        public int usuarioLogueado()
         {
 
-            return usuarioActual ;
+            return usuarioActual.id ;
 
         }
 
@@ -312,11 +312,7 @@ namespace Cinemania
                 return false;
         }
 
-        public double usuarioCredito()
-        {
-
-            return usuarioActual.Credito;
-        }
+        
 
         public List<Usuario> obtenerUsuarios()
         {
@@ -350,6 +346,42 @@ namespace Cinemania
             return fuFinded;
         }
 
+        public int devolverDni(int idUsuario)
+        { 
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+
+            return usr.id;
+        }
+
+        public string devolverNombre(int idUsuario)
+        {
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+
+            return usr.Nombre;
+        }
+
+        public double devolverCredito(int idUsuario)
+        {
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+
+            return usr.Credito;
+        }
+
+        public string devolverMail(int idUsuario)
+        {
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+
+            return usr.Mail;
+        }
+
+        public List<Funcion> devolerMisFuncionesFuturas(int idUsuario)
+        {
+            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+            var funcFuturas = usr.MisFunciones.Where(f => f.fecha >= DateTime.Now);
+
+            return funcFuturas.ToList();
+
+        }
 
 
 
@@ -528,7 +560,32 @@ namespace Cinemania
             return false;
         }
 
-
+        public bool modificarFuncion(int idFuncion,int idSala,int idPelicula,DateTime fechaNueva,double costo)
+        {
+            Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
+            Pelicula nuevaPeli = context.peliculas.Where(p => p.id == idPelicula).FirstOrDefault();
+            Sala salaNueva = context.salas.Where(s => s.id == idSala).FirstOrDefault();
+            if (func != null)
+            {
+                if (func.idSala != idSala)
+                {
+                    func.idSala = idSala;
+                    context.funciones.Update(func);
+                }
+                if (func.idPelicula != idPelicula)
+                {
+                    func.idPelicula = idPelicula;
+                    context.funciones.Update(func);
+                }
+                func.fecha = fechaNueva;
+                func.costo = costo;
+                context.funciones.Update(func);
+                context.SaveChanges();
+                return true;
+            }
+            else
+                return false;
+        }
 
     }
     

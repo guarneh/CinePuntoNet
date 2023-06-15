@@ -541,7 +541,7 @@ namespace Cinemania
         {
             if (selectedFuncion != 0)
             {
-                if (cine.modificarFuncion(selectedFuncion, int.Parse(textBoxIdSala.Text), int.Parse(textBoxIdPeli.Text), dateTimePickerFuncion.Value, int.Parse(labCantClientes.Text), double.Parse(textBoxCosto.Text)))
+                if (cine.modificarFuncion(selectedFuncion, int.Parse(textBoxIdSala.Text), int.Parse(textBoxIdPeli.Text), dateTimePickerFuncion.Value, double.Parse(textBoxCosto.Text)))
                     MessageBox.Show("Modificado con éxito");
                 else
                     MessageBox.Show("Problemas al modificar");
