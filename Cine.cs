@@ -168,10 +168,9 @@ namespace Cinemania
             try
             {
                 Pelicula peli = context.peliculas.Where(p => p.id == id).FirstOrDefault();
-                var funcEliminadas = context.funciones.Where(f => f.idPelicula == peli.id);
-                if (peli != null)
+                var funcEliminadas = context.funciones.Where(f => f.idPelicula == peli.id && f.fecha >= DateTime.Now);
+                if (peli != null && funcEliminadas == null)
                 {
-                    context.funciones.Remove(funcEliminadas);
                     context.peliculas.Remove(peli);
                     context.SaveChanges();
                     return true;
@@ -226,9 +225,17 @@ namespace Cinemania
             try
             {
                 Sala miSala = context.salas.Where(s => s.id == id).FirstOrDefault();
-                context.salas.Remove(miSala);
-                context.SaveChanges();
-                return true;
+                var funcEliminada = context.funciones.Where(f => f.miSala == miSala && f.fecha >= DateTime.Now);
+                if (miSala != null && funcEliminada == null)
+                {
+                    context.salas.Remove(miSala);
+                    context.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
@@ -373,7 +380,7 @@ namespace Cinemania
         {
             try
             {
-                Funcion miFuncion = context.funciones.Where(f => f.ID == id).FirstOrDefault();
+                Funcion miFuncion = context.funciones.Where(f => f.ID == id && f.fecha < DateTime.Now).FirstOrDefault();
                 if (miFuncion != null)
                 {
                     miFuncion.miPelicula.misFunciones.Remove(miFuncion);
@@ -502,11 +509,7 @@ namespace Cinemania
         }
 
 
-        public bool modificarFuncion(int id, int idSala, int idPelicula, DateTime fecha, int cantClientes, double costo)
-        {
-
-            return false;
-        }
+        
 
 
 
