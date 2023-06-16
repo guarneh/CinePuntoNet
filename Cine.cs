@@ -20,6 +20,13 @@ namespace Cinemania
             inicializarAtributos();
         }
 
+        /*
+          eliminarFuncion Si la función todavía no ocurrió, podes eliminarla pero tenes que devolverle la plata a todos los usuarios
+          El context no crea datos por defecto, es un nice to have
+            El context no crea datos por defecto, es un nice to have
+            FALTA BUSCAR FUNCIÓN!
+        */
+
         public void inicializarAtributos()
         {
             try
@@ -106,18 +113,19 @@ namespace Cinemania
             try
             {
                 Usuario usr = context.usuarios.Where(u => u.id == id).FirstOrDefault();
+                var funcFinded = context.funcionUsuarios.Where(f => f.usuario == usr);
                 if (usr != null)
                 {
-                    if (usr.Tickets.Count > 0)
+                    if (funcFinded != null)
                     {
-                        return false;
+                        foreach (var f in funcFinded)
+                        {
+                            usr.Credito += f.funcion.costo * f.cantEntradas;
+                        }   
                     }
-                    else
-                    { 
                     context.usuarios.Remove(usr);
                     context.SaveChanges();
                     return true;
-                    }
                 }
                 else
                     return false;
@@ -346,40 +354,33 @@ namespace Cinemania
             return fuFinded;
         }
 
-        public int devolverDni(int idUsuario)
-        { 
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+        public int devolverDni()
+        {
 
-            return usr.id;
+            return usuarioActual.DNI;
         }
 
-        public string devolverNombre(int idUsuario)
+        public string devolverNombre()
         {
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
-
-            return usr.Nombre;
+            return usuarioActual.Nombre;
         }
 
         public double devolverCredito(int idUsuario)
         {
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
 
-            return usr.Credito;
+            return usuarioActual.Credito;
         }
 
         public string devolverMail(int idUsuario)
         {
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
-
-            return usr.Mail;
+            return usuarioActual.Mail;
         }
 
         public List<Funcion> devolerMisFuncionesFuturas(int idUsuario)
         {
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
-            var funcFuturas = usr.MisFunciones.Where(f => f.fecha >= DateTime.Now);
+            
 
-            return funcFuturas.ToList();
+            return usuarioActual.MisFunciones.Where(f => f.fecha > DateTime.Now).ToList();
 
         }
 
@@ -457,33 +458,33 @@ namespace Cinemania
          public bool comprarEntrada(int idUsuario, int idFuncion, int cantClientes)
          {
             
-            Usuario usr = context.usuarios.Where(u => u.id == idUsuario).FirstOrDefault();
+            
             Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
             
-            if (usr != null && func != null)
+            if (usuarioActual != null && func != null)
             {
                 
                 if (func.cantClientes + cantClientes <= func.miSala.capacidad)
                 {
-                    if (usr.Credito >= func.costo * cantClientes)
+                    if (usuarioActual.Credito >= func.costo * cantClientes)
                     {
                         
-                        usr.MisFunciones.Add(func);
-                        context.usuarios.Update(usr);
-                        usr.Credito = usr.Credito - func.costo * cantClientes;
-                        func.clientes.Add(usr);
+                        usuarioActual.MisFunciones.Add(func);
+                        context.usuarios.Update(usuarioActual);
+                        usuarioActual.Credito = usuarioActual.Credito - func.costo * cantClientes;
+                        func.clientes.Add(usuarioActual);
                         context.funciones.Update(func);
                         context.SaveChanges();
-                        if (usr.Tickets.Last<FuncionUsuario>().cantEntradas > 0)
+                        if (usuarioActual.Tickets.Last<FuncionUsuario>().cantEntradas > 0)
                         {
-                            usr.Tickets.Last<FuncionUsuario>().cantEntradas = usr.Tickets.Last<FuncionUsuario>().cantEntradas + cantClientes;
-                            context.usuarios.Update(usr);
+                            usuarioActual.Tickets.Last<FuncionUsuario>().cantEntradas = usuarioActual.Tickets.Last<FuncionUsuario>().cantEntradas + cantClientes;
+                            context.usuarios.Update(usuarioActual);
                             context.SaveChanges() ;
                         }
                         else
                         {
-                            usr.Tickets.Last<FuncionUsuario>().cantEntradas = cantClientes;
-                            context.usuarios.Update(usr);
+                            usuarioActual.Tickets.Last<FuncionUsuario>().cantEntradas = cantClientes;
+                            context.usuarios.Update(usuarioActual);
                             context.SaveChanges () ;
                         }
                         return true;
@@ -502,19 +503,19 @@ namespace Cinemania
 
         public bool devolverEntrada(int idFuncion, int cantEntradas)
         {
-            Funcion func = context.funciones.Where(f => f.ID == idFuncion).FirstOrDefault();
-            FuncionUsuario fuSelected = context.funcionUsuarios.Where(fu => fu.usuario == usuarioActual && fu.funcion == func).FirstOrDefault();
-            if (func != null)
+            
+            FuncionUsuario fuSelected = context.funcionUsuarios.Where(fu => fu.usuario == usuarioActual && fu.idFuncion == idFuncion).FirstOrDefault();
+            if (fuSelected != null)
             {
                 if (fuSelected.cantEntradas >= cantEntradas)
                 {
-                    usuarioActual.Credito += func.costo * cantEntradas;
+                    usuarioActual.Credito += fuSelected.funcion.costo * cantEntradas;
                     fuSelected.cantEntradas -= cantEntradas;
                     if (fuSelected.cantEntradas == 0)
                     {
                         usuarioActual.Tickets.Remove(fuSelected);
-                        func.funcionUsuarios.Remove(fuSelected);
-                        func.clientes.Remove(usuarioActual);
+                        fuSelected.funcion.funcionUsuarios.Remove(fuSelected);
+                        fuSelected.funcion.clientes.Remove(usuarioActual);
                         context.funcionUsuarios.Remove(fuSelected);  
                         context.SaveChanges();
                         return true;
