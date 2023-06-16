@@ -23,7 +23,6 @@ namespace Cinemania
         public mainToUsuario TransfUsuario;
         private int selectedUser;
         private int selectedFuncion;
-        private int cantClientes;
 
         public Main(Cine cine)
         {
