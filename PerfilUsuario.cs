@@ -22,10 +22,10 @@ namespace Cinemania
         {
             InitializeComponent();
             cinema = cine;
-            label2.Text = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
-            label5.Text = cinema.devolverDni(cinema.usuarioLogueado()).ToString();
+            label2.Text = cinema.devolverCredito().ToString();
+            label5.Text = cinema.devolverDni().ToString();
             label7.Text = cinema.devolverMail(cinema.usuarioLogueado());
-            label8.Text = cinema.devolverNombre(cinema.usuarioLogueado());
+            label8.Text = cinema.devolverNombre();
         }
 
 

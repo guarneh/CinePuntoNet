@@ -30,7 +30,7 @@ namespace Cinemania
 
         private void TransfDelegado()
         {
-            MessageBox.Show("Log in correcto: " + cine.devolverNombre(cine.usuarioLogueado()), "Inicio de Sesi�n", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Log in correcto: " + cine.devolverNombre(), "Inicio de Sesi�n", MessageBoxButtons.OK, MessageBoxIcon.Information);
             hijoLogin.Close();
 
             //Ahora s� creo la pantalla principal Form3

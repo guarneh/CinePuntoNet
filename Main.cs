@@ -28,8 +28,8 @@ namespace Cinemania
         {
             InitializeComponent();
             cinema = cine;
-            label2.Text = cine.devolverNombre(cine.usuarioLogueado());
-            label4.Text = cine.devolverCredito(cine.usuarioLogueado()).ToString();
+            label2.Text = cine.devolverNombre();
+            label4.Text = cine.devolverCredito();
             selectedUser = cinema.usuarioLogueado();
             if (cine.UsuarioAdministrador())
             {
@@ -94,7 +94,7 @@ namespace Cinemania
             }
 
             textBox1.Clear();
-            string credit = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
+            string credit = cinema.devolverCredito().ToString();
             label4.Text = credit;
 
 
@@ -150,7 +150,7 @@ namespace Cinemania
                 if (cinema.comprarEntrada(selectedUser, selectedFuncion, entradas))
                 {
                     MessageBox.Show("compra exitosa");
-                    label4.Text = cinema.devolverCredito(cinema.usuarioLogueado()).ToString();
+                    label4.Text = cinema.devolverCredito().ToString();
                 }
 
                 else

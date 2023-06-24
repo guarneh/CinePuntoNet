@@ -365,10 +365,10 @@ namespace Cinemania
             return usuarioActual.Nombre;
         }
 
-        public double devolverCredito(int idUsuario)
+        public string devolverCredito()
         {
 
-            return usuarioActual.Credito;
+            return usuarioActual.Credito.ToString();
         }
 
         public string devolverMail(int idUsuario)
